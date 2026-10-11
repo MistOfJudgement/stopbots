@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://b18ufq8qm6ohy"]
+
+[ext_resource type="Script" uid="uid://c6ayuy4mgajln" path="res://lobby_screen.gd" id="1_j2aln"]
+[ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://chat_menu.gd" id="1_s4q6i"]
+
+[node name="LobbyScreen" type="HBoxContainer" unique_id=1467272578]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j2aln")
+
+[node name="PlayerList" type="VBoxContainer" parent="." unique_id=572005045]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PlayerList" unique_id=2126912704]
+layout_mode = 2
+text = "Player XX"
+
+[node name="Label2" type="Label" parent="PlayerList" unique_id=308734561]
+layout_mode = 2
+text = "Player XX"
+
+[node name="Label3" type="Label" parent="PlayerList" unique_id=2087115118]
+layout_mode = 2
+text = "Player XX"
+
+[node name="Label4" type="Label" parent="PlayerList" unique_id=29536354]
+layout_mode = 2
+text = "Player XX"
+
+[node name="MainControls" type="VBoxContainer" parent="." unique_id=1900302831]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoomID" type="Label" parent="MainControls" unique_id=726746983]
+layout_mode = 2
+text = "ABCD"
+
+[node name="Button" type="Button" parent="MainControls" unique_id=965479714]
+layout_mode = 2
+text = "START GAME"
+
+[node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1040956237]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("1_s4q6i")
+
+[node name="TextMessage" type="Label" parent="ChatMenu" unique_id=228211895]
+layout_mode = 2
+
+[node name="MessageSend" type="LineEdit" parent="ChatMenu" unique_id=784147951]
+layout_mode = 2
+placeholder_text = "input message"
+
+[node name="ChatSend" type="Button" parent="ChatMenu" unique_id=1594927063]
+layout_mode = 2
+text = "SEND"
+
+[connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]
