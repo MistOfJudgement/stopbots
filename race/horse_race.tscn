@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dgyn5oi1lfcsq"]
+
+[ext_resource type="PackedScene" uid="uid://dhyuulj6l6vpl" path="res://race/character_body_2d_2.tscn" id="1_0tc0y"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_che5y"]
+load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba46393f6fb1a.ctex"
+
+[node name="HorseRace" type="Node2D" unique_id=1938278164]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=85039748]
+
+[node name="HrtMap1Outline1" type="Sprite2D" parent="Node2D" unique_id=875653764]
+texture = SubResource("CompressedTexture2D_che5y")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2056783106]
+
+[node name="hons" parent="." unique_id=1387410897 instance=ExtResource("1_0tc0y")]
+position = Vector2(-158, -90)
+
+[node name="hons2" parent="." unique_id=1867965898 instance=ExtResource("1_0tc0y")]
+position = Vector2(-265, -90)
+
+[node name="hons3" parent="." unique_id=290239989 instance=ExtResource("1_0tc0y")]
+position = Vector2(-225, -159)
