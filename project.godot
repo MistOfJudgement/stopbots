@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 WsMultiplayer="*uid://cy8sxody8urlp"
+GameState="*uid://cnvd3ttfbs548"
 
 [display]
 

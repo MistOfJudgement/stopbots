@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dhr7snygtdjgk"]
 
 [ext_resource type="Script" uid="uid://dkp0lmafwh11x" path="res://title_screen.gd" id="1_v6p8y"]
+[ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="2_ak2if"]
 
 [node name="TitleScreen" type="VBoxContainer" unique_id=1587306072]
 anchors_preset = 8
@@ -23,19 +24,27 @@ layout_mode = 2
 text = "Stopbots"
 horizontal_alignment = 1
 
-[node name="CreateRoomButton" type="Button" parent="." unique_id=256080031]
-layout_mode = 2
-text = "Create Room"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1580702043]
 layout_mode = 2
 
 [node name="RoomIDInput" type="LineEdit" parent="HBoxContainer" unique_id=1144481027]
 layout_mode = 2
+placeholder_text = "Room"
+
+[node name="PasswordInput2" type="LineEdit" parent="HBoxContainer" unique_id=1970926673]
+layout_mode = 2
+placeholder_text = "Password"
+
+[node name="NameInput" type="LineEdit" parent="HBoxContainer" unique_id=2121708576]
+layout_mode = 2
+placeholder_text = "Name"
 
 [node name="JoinRoomButton" type="Button" parent="HBoxContainer" unique_id=1880320636]
 layout_mode = 2
 text = "Join Room"
 
-[connection signal="pressed" from="CreateRoomButton" to="." method="_on_create_room_button_pressed"]
+[node name="WebsocketConnector" type="Node" parent="." unique_id=866477787]
+script = ExtResource("2_ak2if")
+metadata/_custom_type_script = "uid://def8dhc17jsdb"
+
 [connection signal="pressed" from="HBoxContainer/JoinRoomButton" to="." method="_on_join_room_button_pressed"]

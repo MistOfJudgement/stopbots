@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dme42qmc4qaa4"]
+
+[ext_resource type="Script" uid="uid://g7a3eepdxnko" path="res://lobby/lobby_screen_client.gd" id="1_jqq8v"]
+[ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://lobby/chat_menu.gd" id="2_jlxtr"]
+[ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="3_4pgaq"]
+
+[node name="LobbyScreenClient" type="HBoxContainer" unique_id=1249702514]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jqq8v")
+
+[node name="MainControls" type="VBoxContainer" parent="." unique_id=42331082]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoomID" type="Label" parent="MainControls" unique_id=1890920451]
+layout_mode = 2
+text = "ABCD"
+
+[node name="Button" type="Button" parent="MainControls" unique_id=1563209039]
+layout_mode = 2
+text = "START GAME"
+
+[node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1411039207]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_jlxtr")
+
+[node name="TextMessage" type="Label" parent="ChatMenu" unique_id=2058158031]
+layout_mode = 2
+
+[node name="MessageSend" type="LineEdit" parent="ChatMenu" unique_id=932110945]
+layout_mode = 2
+placeholder_text = "input message"
+
+[node name="ChatSend" type="Button" parent="ChatMenu" unique_id=134971251]
+layout_mode = 2
+text = "SEND"
+
+[node name="WebsocketConnector" type="Node" parent="." unique_id=1699164029]
+script = ExtResource("3_4pgaq")
+metadata/_custom_type_script = "uid://def8dhc17jsdb"
+
+[connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]
