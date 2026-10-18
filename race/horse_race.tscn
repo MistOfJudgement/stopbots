@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://dgyn5oi1lfcsq"]
 
-[ext_resource type="PackedScene" uid="uid://dhyuulj6l6vpl" path="res://race/character_body_2d_2.tscn" id="1_0tc0y"]
 [ext_resource type="Script" uid="uid://b62eq7tmtuvpf" path="res://race/horse_race.gd" id="1_84n4f"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_che5y"]
@@ -16,17 +15,11 @@ texture = SubResource("CompressedTexture2D_che5y")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2056783106]
 
-[node name="hons" parent="." unique_id=1387410897 instance=ExtResource("1_0tc0y")]
-position = Vector2(-158, -90)
-
-[node name="hons2" parent="." unique_id=1867965898 instance=ExtResource("1_0tc0y")]
-position = Vector2(-265, -90)
-
-[node name="hons3" parent="." unique_id=290239989 instance=ExtResource("1_0tc0y")]
-position = Vector2(-225, -159)
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=394593413]
 
 [node name="StartTimer" type="Timer" parent="." unique_id=1516668933]
+
+[node name="Spawn" type="Marker2D" parent="." unique_id=430846175]
+position = Vector2(-247, -141)
 
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

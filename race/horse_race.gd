@@ -1,12 +1,17 @@
 extends Node2D
 
+@export var horse_template:= preload("res://race/horse.tscn")
 var horses: Array[Node2D] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
 	for player: GameState.PlayerInfo in GameState.active_players():
-		pass
+		var tmp :Node2D= horse_template.instantiate()
+		tmp.global_position = $Spawn.global_position
+		add_child(tmp)
+		horses.append(tmp)
+		print(player.name)
 			
 	pass # Replace with function body.
 	WsMultiplayer.send_data({

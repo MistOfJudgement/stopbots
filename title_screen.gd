@@ -3,6 +3,12 @@ extends VBoxContainer
 @onready var roomInput := $HBoxContainer/RoomIDInput
 @onready var password := $HBoxContainer/PasswordInput2
 @onready var nameInput := $HBoxContainer/NameInput
+
+func _ready() -> void:
+	if OS.has_feature("speed"):
+		roomInput.text = "Test"
+		nameInput.text = "TestClient" + str(randi() % 50)
+		_on_join_room_button_pressed()
 func _on_join_room_button_pressed() -> void:
 	if roomInput.text == "": return
 	GameState.player_name = nameInput.text

@@ -1,22 +1,33 @@
 extends VBoxContainer
 
-
+@onready var info_text := $Label
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
-
+	if GameState.role == GameState.Role.Player:
+		info_text.text = "Cheer on your horse"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-func load_racer(players: Array[Dictionary]):
+func load_racer(players: Array):
+	print("players:::", players)
 	for p in players:
-		var temp:= Button.new()
+		print("player:", p)
+		var temp := Button.new()
 		temp.text = p["player_name"]
 		$HFlowContainer.add_child(temp)
+	$HFlowContainer.visible = true
+	$HBoxContainer.visible = true
 func on_data_message(message: NetworkEvent):
 	var payload: Dictionary = message.payload
 	match payload["type"]:
 		"announce_racers":
-			load_racer(payload["players"])
-			await get_tree().create_timer(int(payload["timeout"]) - Time.get_unix_time_from_system()).timeout
+			if GameState.role == GameState.Role.Spectator:
+				print("payload::::: ", payload)
+				load_racer(payload["players"])
+				get_tree().create_timer(int(payload["timeout"]) - Time.get_unix_time_from_system()).timeout.connect(end_betting_time)
+func end_betting_time():
+	$HFlowContainer.visible = false
+	$HBoxContainer.visible = false
+	

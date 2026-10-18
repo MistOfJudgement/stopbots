@@ -34,7 +34,7 @@ class PlayerInfo:
 
 var players: Dictionary[String, PlayerInfo] = {}
 func active_players() -> Array[PlayerInfo]:
-	return players.values().filter(func(e): e.role == Role.Player)
+	return players.values().filter(func(e): return e.role == Role.Player)
 # --- INITIALIZATION ---
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
@@ -136,6 +136,7 @@ func on_data_message(event: NetworkEvent) -> void:
 				var player = get_or_create_player(event.sender_id)
 				player.role = role_from_val(int(payload["role"]))
 				player_list_changed.emit()
+				print("asdfoij ", active_players())
 		"sync_state_output":
 			if not is_authority:
 				print("-> CLIENT: Received sync_state_output from host!")

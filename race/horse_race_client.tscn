@@ -23,11 +23,13 @@ label_settings = SubResource("LabelSettings_embgu")
 layout_mode = 2
 
 [node name="Button" type="Button" parent="HFlowContainer" unique_id=1322735571]
+visible = false
 layout_mode = 2
 theme = ExtResource("1_skuhy")
 text = "CYN"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1338459111]
+visible = false
 layout_mode = 2
 
 [node name="Button" type="Button" parent="HBoxContainer" unique_id=582047243]
