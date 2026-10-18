@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HorseData" format=3 uid="uid://byu6vrbi6bg1b"]
+
+[ext_resource type="Script" uid="uid://c1nr8v616bkse" path="res://horse/horse_data.gd" id="1_tpovg"]
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="2_53esd"]
+
+[resource]
+script = ExtResource("1_tpovg")
+full_name = "Cyan"
+short_name = "00B"
+sprite_sheet = ExtResource("2_53esd")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"

@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://b42psqptrbaak"]
+
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="1_kt8ef"]
+
+[sub_resource type="GDScript" id="GDScript_kt8ef"]
+script/source = "extends Node2D
+
+@export var data: HorseData
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxv3s"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(0, 0, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijnsw"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(30, 0, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a0yg"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(60, 0, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15pbn"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(90, 0, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gg2og"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(0, 30, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoe70"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(30, 30, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1tt6"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(60, 30, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry3db"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(90, 30, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mew1b"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(0, 60, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27nmx"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(30, 60, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b53cw"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(60, 60, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_587qy"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(90, 60, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chcjx"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(0, 90, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8vi8"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(30, 90, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4e7v"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(60, 90, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbvvg"]
+atlas = ExtResource("1_kt8ef")
+region = Rect2(90, 90, 30, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_embgu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxv3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijnsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a0yg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15pbn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gg2og")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qoe70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1tt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ry3db")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mew1b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27nmx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b53cw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_587qy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chcjx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8vi8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4e7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbvvg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="HorseData" type="Node2D" unique_id=587016283]
+script = SubResource("GDScript_kt8ef")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1211043453]
+sprite_frames = SubResource("SpriteFrames_embgu")
+speed_scale = 0.0

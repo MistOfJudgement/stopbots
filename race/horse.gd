@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends CharacterBody2D
 
 @export var forward_thrust: float = 150.0
 @onready var map_sprite: Sprite2D = $"../Node2D/HrtMap1Outline1"
@@ -11,15 +11,24 @@ func randomize_angle() -> void:
 	#while not result.collider:
 		#var query = PhysicsRayQueryParameters2D.create(Vector2(0, 0), Vector2(50, 100))
 		#result = space_state.intersect_ray(query)
-	linear_velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * 100
+	velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * 100
 	
 func _physics_process(delta: float) -> void:
-	if (get_contact_count() > 0):
-		randomize_angle()
-		#get_colliding_bodies()[0].get_angle_to(position)
-	while is_touching_wall(transform.origin + linear_velocity*delta):
-		linear_velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * 100
 
+		#get_colliding_bodies()[0].get_angle_to(position)
+	var i := 0
+	while is_touching_wall(transform.origin + velocity*delta) and i < 20:
+		velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * 100
+		i+= 1
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		velocity = velocity.bounce(collision.get_normal())
+		return
+		
+		
+
+		
+		#velocity = velocity.bounce(collision.get_normal())
 func is_touching_wall(pos: Vector2) -> bool:
 	if not map_sprite or not map_sprite.texture:
 		return false

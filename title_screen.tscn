@@ -21,7 +21,7 @@ script = ExtResource("1_v6p8y")
 
 [node name="Title" type="Label" parent="." unique_id=150742928]
 layout_mode = 2
-text = "Stopbots"
+text = "Horse Race Test"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1580702043]

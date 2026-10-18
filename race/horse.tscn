@@ -6,11 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_embgu"]
 size = Vector2(31.319923, 30.359985)
 
-[node name="hors" type="RigidBody2D" unique_id=1387410897]
-gravity_scale = 0.0
-lock_rotation = true
-contact_monitor = true
-max_contacts_reported = 2
+[node name="hors" type="CharacterBody2D" unique_id=1246872788]
 script = ExtResource("1_o1ycu")
 
 [node name="Cyn" type="Sprite2D" parent="." unique_id=1582153211]
@@ -20,5 +16,3 @@ texture = ExtResource("2_7hddc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1280866551]
 scale = Vector2(1.0000004, 1)
 shape = SubResource("RectangleShape2D_embgu")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
