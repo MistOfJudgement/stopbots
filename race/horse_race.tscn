@@ -22,4 +22,29 @@ texture = SubResource("CompressedTexture2D_che5y")
 [node name="Spawn" type="Marker2D" parent="." unique_id=430846175]
 position = Vector2(-247, -141)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=745368113]
+
+[node name="EndRaceButton" type="Button" parent="CanvasLayer" unique_id=1421995796]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -58.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "End Race Early"
+
+[node name="WinRaceButton" type="Button" parent="CanvasLayer" unique_id=889182769]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+offset_right = 262.0
+grow_vertical = 0
+text = "Win Race Early"
+
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/EndRaceButton" to="." method="_on_end_race_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/WinRaceButton" to="." method="_on_win_race_button_pressed"]

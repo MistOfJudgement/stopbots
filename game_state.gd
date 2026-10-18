@@ -93,7 +93,36 @@ func goto_race() -> void:
 		# Client scene transition
 		get_tree().change_scene_to_file("res://race/horse_race_client.tscn")
 func goto_train() -> void:
-	pass
+	if current_game_state == GameStateType.Train: return
+	current_game_state = GameStateType.Train
+
+	if is_authority:
+		# 1. Tell all connected clients to also switch to the race
+		WsMultiplayer.send_data({
+			"type": "change_state",
+			"target_state": GameStateType.Train
+		})
+		# 2. Host changes its own scene
+		get_tree().change_scene_to_file("res://training/training.tscn")
+	else:
+		# Client scene transition
+		get_tree().change_scene_to_file("res://training/training_client.tscn")
+
+func goto_win() -> void:
+	if current_game_state == GameStateType.End: return
+	current_game_state = GameStateType.End
+
+	if is_authority:
+		# 1. Tell all connected clients to also switch to the race
+		WsMultiplayer.send_data({
+			"type": "change_state",
+			"target_state": GameStateType.End
+		})
+		# 2. Host changes its own scene
+		get_tree().change_scene_to_file("res://win/win_screen.tscn")
+	else:
+		# Client scene transition
+		get_tree().change_scene_to_file("res://win/win_screen.tscn")
 # ============================================================================
 # NETWORK MESSAGE ROUTING (Incoming from WsMultiplayer)
 # ============================================================================

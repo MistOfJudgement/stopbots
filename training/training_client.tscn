@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://c7svh48yk3o7r"]
+
+[ext_resource type="Texture2D" uid="uid://ccjly6l7c0vvh" path="res://horse/assets/MRY_2_Eyes.png" id="1_ejero"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhk3b"]
+atlas = ExtResource("1_ejero")
+region = Rect2(0, 0, 24.542618, 29.458004)
+
+[node name="TrainingClient" type="VBoxContainer" unique_id=157776263]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="." unique_id=721272590]
+layout_mode = 2
+text = "TRAIN YOUR HORSE!"
+
+[node name="TurnCount" type="Label" parent="." unique_id=636195279]
+layout_mode = 2
+text = "You have 5 turns"
+
+[node name="Label" type="Label" parent="." unique_id=818958219]
+layout_mode = 2
+text = "You have 100 energy"
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=936562224]
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_mhk3b")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=654099977]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="SpeedBox" type="VBoxContainer" parent="HBoxContainer" unique_id=1675580012]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/SpeedBox" unique_id=1689614935]
+layout_mode = 2
+text = "SPEED: 10"
+
+[node name="Button" type="Button" parent="HBoxContainer/SpeedBox" unique_id=1920710321]
+layout_mode = 2
+text = "TRAIN"
+
+[node name="PowerBox" type="VBoxContainer" parent="HBoxContainer" unique_id=57482148]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/PowerBox" unique_id=800574077]
+layout_mode = 2
+text = "POWER: 10"
+
+[node name="Button" type="Button" parent="HBoxContainer/PowerBox" unique_id=1295180357]
+layout_mode = 2
+text = "TRAIN"
+
+[node name="Button" type="Button" parent="." unique_id=219774817]
+layout_mode = 2
+text = "DONE"

@@ -32,3 +32,11 @@ func _process(delta: float) -> void:
 func _on_start_timer_timeout() -> void:
 	#remove starting gate
 	pass
+
+
+func _on_end_race_button_pressed() -> void:
+	GameState.goto_train()
+
+
+func _on_win_race_button_pressed() -> void:
+	GameState.goto_win()

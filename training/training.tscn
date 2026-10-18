@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dr1dussvyjm2a"]
+
+[ext_resource type="Script" uid="uid://cytbxocdnh4w8" path="res://training/training.gd" id="1_bntwg"]
+[ext_resource type="Texture2D" uid="uid://ccjly6l7c0vvh" path="res://horse/assets/MRY_2_Eyes.png" id="1_g86yt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_embgu"]
+atlas = ExtResource("1_g86yt")
+region = Rect2(0, 0, 24.770676, 29.349485)
+
+[node name="Training" type="HFlowContainer" unique_id=2054879379]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_bntwg")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=45449070]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=227193038]
+layout_mode = 2
+text = "Trainer's horse"
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=172297880]
+layout_mode = 2
+text = "Jovial Merryment"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1796693649]
+layout_mode = 2
+texture = SubResource("AtlasTexture_embgu")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=623918402]
+layout_mode = 2
+text = "Speed: 10
+Power: 10
+Money: 100"
+
+[node name="EndTraining" type="Button" parent="." unique_id=835240719]
+layout_mode = 2
+text = "End Training"
+
+[connection signal="pressed" from="EndTraining" to="." method="_on_end_training_pressed"]
