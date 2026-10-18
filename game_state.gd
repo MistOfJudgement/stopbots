@@ -54,10 +54,12 @@ func set_authority(role_str: String) -> void:
 			printerr("GlobalGameState: Unknown role received -> ", role_str)
 
 func set_role(role_val: int) -> void:
+	role = role_from_val(role_val)
+
+func role_from_val(role_val: int) -> Role:
 	if role_val >= 0 and role_val < Role.size():
-		role = Role.values()[role_val]
-
-
+		return Role.values()[role_val]
+	return Role.None
 # ============================================================================
 # SCENE & STATE TRANSITIONS
 # ============================================================================
@@ -129,7 +131,11 @@ func on_data_message(event: NetworkEvent) -> void:
 				player.name = payload.get("name", "Unknown")
 				print("-> HOST: Updated name for ", event.sender_id, " to: ", player.name)
 				player_list_changed.emit()
-
+		"set_role":
+			if is_authority:
+				var player = get_or_create_player(event.sender_id)
+				player.role = role_from_val(int(payload["role"]))
+				player_list_changed.emit()
 		"sync_state_output":
 			if not is_authority:
 				print("-> CLIENT: Received sync_state_output from host!")

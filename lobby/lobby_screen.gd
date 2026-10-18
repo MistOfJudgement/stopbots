@@ -18,7 +18,7 @@ func _refresh_player_ui() -> void:
 	for id in GameState.players:
 		var player_info = GameState.players[id]
 		var name_label := Label.new()
-		name_label.text = player_info.name
+		name_label.text = player_info.name + "(" + ("Player" if player_info.role == GameState.Role.Player else "Spectator") +")"
 		player_list.add_child(name_label)
 
 

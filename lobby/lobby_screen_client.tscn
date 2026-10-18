@@ -23,6 +23,20 @@ text = "ABCD"
 [node name="Name" type="Label" parent="." unique_id=502235775]
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=604494398]
+layout_mode = 2
+
+[node name="TrainerSelect" type="Button" parent="HBoxContainer" unique_id=1771856804]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "I want to train a horse"
+
+[node name="SpectatorSelect" type="Button" parent="HBoxContainer" unique_id=403187820]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "I want to bet on horses"
+
 [node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1411039207]
 visible = false
 layout_mode = 2
@@ -44,5 +58,7 @@ text = "SEND"
 layout_mode = 2
 text = "Quit"
 
+[connection signal="pressed" from="HBoxContainer/TrainerSelect" to="." method="_on_trainer_select_pressed"]
+[connection signal="pressed" from="HBoxContainer/SpectatorSelect" to="." method="_on_spectator_select_pressed"]
 [connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
