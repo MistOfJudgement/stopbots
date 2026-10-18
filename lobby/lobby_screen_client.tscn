@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://lobby/chat_menu.gd" id="2_jlxtr"]
 [ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="3_4pgaq"]
 
-[node name="LobbyScreenClient" type="HBoxContainer" unique_id=1249702514]
+[node name="LobbyScreenClient" type="VBoxContainer" unique_id=1451473517]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,19 +12,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jqq8v")
 
-[node name="MainControls" type="VBoxContainer" parent="." unique_id=42331082]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="WebsocketConnector" type="Node" parent="." unique_id=1699164029]
+script = ExtResource("3_4pgaq")
+metadata/_custom_type_script = "uid://def8dhc17jsdb"
 
-[node name="RoomID" type="Label" parent="MainControls" unique_id=1890920451]
+[node name="RoomID" type="Label" parent="." unique_id=1890920451]
 layout_mode = 2
 text = "ABCD"
 
-[node name="Button" type="Button" parent="MainControls" unique_id=1563209039]
+[node name="Name" type="Label" parent="." unique_id=502235775]
 layout_mode = 2
-text = "START GAME"
 
 [node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1411039207]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_jlxtr")
@@ -40,8 +40,9 @@ placeholder_text = "input message"
 layout_mode = 2
 text = "SEND"
 
-[node name="WebsocketConnector" type="Node" parent="." unique_id=1699164029]
-script = ExtResource("3_4pgaq")
-metadata/_custom_type_script = "uid://def8dhc17jsdb"
+[node name="Quit" type="Button" parent="." unique_id=112763770]
+layout_mode = 2
+text = "Quit"
 
 [connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

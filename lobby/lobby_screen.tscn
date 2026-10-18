@@ -16,19 +16,28 @@ script = ExtResource("1_684nl")
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Label" type="Label" parent="PlayerList" unique_id=968709739]
+layout_mode = 2
+text = "Players:"
+
 [node name="MainControls" type="VBoxContainer" parent="." unique_id=1900302831]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="RoomID" type="Label" parent="MainControls" unique_id=726746983]
 layout_mode = 2
-text = "ABCD"
+text = "Room: ABCD"
 
-[node name="Button" type="Button" parent="MainControls" unique_id=965479714]
+[node name="StartGameButton" type="Button" parent="MainControls" unique_id=965479714]
 layout_mode = 2
 text = "START GAME"
 
+[node name="CloseLobbyButton" type="Button" parent="MainControls" unique_id=1825293767]
+layout_mode = 2
+text = "CLOSE LOBBY"
+
 [node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1040956237]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_y8mbi")
@@ -48,5 +57,6 @@ text = "SEND"
 script = ExtResource("3_y8mbi")
 metadata/_custom_type_script = "uid://def8dhc17jsdb"
 
-[connection signal="pressed" from="MainControls/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MainControls/StartGameButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MainControls/CloseLobbyButton" to="." method="_on_close_lobby_button_pressed"]
 [connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]

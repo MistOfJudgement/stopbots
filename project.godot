@@ -24,6 +24,10 @@ GameState="*uid://cnvd3ttfbs548"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom="uid://cht54pfshound"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

@@ -1,9 +1,48 @@
 [gd_scene format=3 uid="uid://drxbvq8kq6f5v"]
 
-[node name="HorseRaceClient" type="Control" unique_id=566095106]
-layout_mode = 3
+[ext_resource type="Script" uid="uid://csijonxy71y6m" path="res://race/horse_race_client.gd" id="1_j7ak5"]
+[ext_resource type="Theme" uid="uid://cht54pfshound" path="res://general_theme.tres" id="1_skuhy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_embgu"]
+font_size = 36
+
+[node name="HorseRaceClient" type="VBoxContainer" unique_id=1122332993]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_j7ak5")
+
+[node name="Label" type="Label" parent="." unique_id=1681874336]
+layout_mode = 2
+text = "Choose who to bet on."
+label_settings = SubResource("LabelSettings_embgu")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1100411265]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HFlowContainer" unique_id=1322735571]
+layout_mode = 2
+theme = ExtResource("1_skuhy")
+text = "CYN"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1338459111]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=582047243]
+layout_mode = 2
+theme = ExtResource("1_skuhy")
+text = "+10"
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=459407572]
+layout_mode = 2
+theme = ExtResource("1_skuhy")
+text = "XX"
+
+[node name="Button2" type="Button" parent="HBoxContainer" unique_id=271925044]
+layout_mode = 2
+theme = ExtResource("1_skuhy")
+text = "-10"
+
+[node name="Timer" type="Timer" parent="." unique_id=1829868581]

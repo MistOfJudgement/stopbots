@@ -6,6 +6,11 @@ extends RigidBody2D
 func _ready() -> void:
 	randomize_angle()
 func randomize_angle() -> void:
+	#var space_state = get_world_2d().direct_space_state
+	#var result: Dictionary = {}
+	#while not result.collider:
+		#var query = PhysicsRayQueryParameters2D.create(Vector2(0, 0), Vector2(50, 100))
+		#result = space_state.intersect_ray(query)
 	linear_velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * 100
 	
 func _physics_process(delta: float) -> void:

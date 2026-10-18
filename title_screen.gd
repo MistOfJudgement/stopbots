@@ -21,6 +21,7 @@ func on_system_message(type: String, data: Dictionary) -> void:
 		"authenticated":
 			print("Successfully authenticated as: ", data.get("role"))
 			GameState.set_authority((data.get("role")))
+			GameState.room = roomInput.text
 			if GameState.is_authority:
 				GameState.goto_lobby()
 			else:

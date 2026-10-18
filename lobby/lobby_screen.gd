@@ -27,3 +27,7 @@ func _on_button_pressed() -> void:
 		"type": "start"
 	})
 	GameState.goto_race()
+
+
+func _on_close_lobby_button_pressed() -> void:
+	WsMultiplayer.socket.close()

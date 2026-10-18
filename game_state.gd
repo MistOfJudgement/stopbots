@@ -33,7 +33,8 @@ class PlayerInfo:
 	var name: String
 
 var players: Dictionary[String, PlayerInfo] = {}
-
+func active_players() -> Array[PlayerInfo]:
+	return players.values().filter(func(e): e.role == Role.Player)
 # --- INITIALIZATION ---
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
@@ -66,21 +67,31 @@ func goto_lobby() -> void:
 	if current_game_state == GameStateType.Lobby: return
 
 	current_game_state = GameStateType.Lobby
-
+	WsMultiplayer.send_data({
+		"type": "change_state",
+		"target_state": GameStateType.Lobby
+	})
 	if is_authority:
 		get_tree().change_scene_to_file("res://lobby/lobby_screen.tscn")
 	else:
 		get_tree().change_scene_to_file("res://lobby/lobby_screen_client.tscn")
-
 func goto_race() -> void:
 	if current_game_state == GameStateType.Race: return
-
 	current_game_state = GameStateType.Race
 
 	if is_authority:
+		# 1. Tell all connected clients to also switch to the race
+		WsMultiplayer.send_data({
+			"type": "change_state",
+			"target_state": GameStateType.Race
+		})
+		# 2. Host changes its own scene
 		get_tree().change_scene_to_file("res://race/horse_race.tscn")
 	else:
+		# Client scene transition
 		get_tree().change_scene_to_file("res://race/horse_race_client.tscn")
+func goto_train() -> void:
+	pass
 # ============================================================================
 # NETWORK MESSAGE ROUTING (Incoming from WsMultiplayer)
 # ============================================================================
@@ -129,6 +140,20 @@ func on_data_message(event: NetworkEvent) -> void:
 					goto_lobby()
 				elif target_state == GameStateType.Race:
 					goto_race()
+		"change_state":
+			if not is_authority:
+				var target_state = int(payload.get("target_state", GameStateType.None))
+				print("-> CLIENT: Host commanded state change to: ", target_state)
+				
+				match target_state:
+					GameStateType.Lobby:
+						goto_lobby()
+					GameStateType.Race:
+						goto_race()
+					GameStateType.Train:
+						goto_train() # Or whatever your next phase is
+					_:
+						printerr("Unknown target state received from host: ", target_state)
 		_:
 			print("-> UNKNOWN MESSAGE TYPE: ", msg_type)
 func on_system_message(type: String, data: Dictionary) -> void:
@@ -193,3 +218,11 @@ func get_or_create_player(connection_id: String) -> PlayerInfo:
 		players[connection_id] = info
 		player_list_changed.emit()
 	return players[connection_id]
+
+func on_disconnect():
+	reset()
+
+func reset():
+	current_game_state = GameStateType.None
+	role = Role.None
+	get_tree().change_scene_to_file("res://title_screen.tscn")

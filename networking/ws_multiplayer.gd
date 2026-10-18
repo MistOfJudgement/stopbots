@@ -11,7 +11,6 @@ signal on_system_message(type: String, data: Dictionary) # For auth/errors/joins
 
 var socket := WebSocketPeer.new()
 var is_connected_to_server := false
-
 func _ready() -> void:
 	set_process(false)
 
