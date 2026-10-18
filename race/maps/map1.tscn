@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://vcmvgorcuxm6"]
+
+[ext_resource type="Script" uid="uid://cxoi5bw1bgb6k" path="res://race/maps/map.gd" id="1_01fi0"]
+[ext_resource type="PackedScene" uid="uid://g3so8sq58stj" path="res://race/carrot.tscn" id="2_xbx23"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xbx23"]
+load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba46393f6fb1a.ctex"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_embgu"]
+size = Vector2(40, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_embgu"]
+size = Vector2(40, 100)
+
+[node name="Map1" type="Node2D" unique_id=90955812 node_paths=PackedStringArray("map")]
+script = ExtResource("1_01fi0")
+map = NodePath("HrtMap1Outline1")
+metadata/_custom_type_script = "uid://cxoi5bw1bgb6k"
+
+[node name="HrtMap1Outline1" type="Sprite2D" parent="." unique_id=223729088]
+texture = SubResource("CompressedTexture2D_xbx23")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=402442049]
+zoom = Vector2(1.36, 1.36)
+
+[node name="Spawn" type="Marker2D" parent="." unique_id=669772675]
+position = Vector2(-247, -141)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=35994420]
+position = Vector2(-107, -129)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1597141200]
+texture = SubResource("PlaceholderTexture2D_embgu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1933515065]
+shape = SubResource("RectangleShape2D_embgu")
+
+[node name="Carrot" parent="." unique_id=401655097 instance=ExtResource("2_xbx23")]
+position = Vector2(-40, 18)
