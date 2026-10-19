@@ -3,6 +3,11 @@
 [ext_resource type="Script" uid="uid://g7a3eepdxnko" path="res://lobby/lobby_screen_client.gd" id="1_jqq8v"]
 [ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://lobby/chat_menu.gd" id="2_jlxtr"]
 [ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="3_4pgaq"]
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="4_jlxtr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jb71b"]
+atlas = ExtResource("4_jlxtr")
+region = Rect2(0, 0, 29.15622, 26.80731)
 
 [node name="LobbyScreenClient" type="VBoxContainer" unique_id=1451473517]
 anchors_preset = 15
@@ -57,6 +62,31 @@ text = "SEND"
 [node name="Quit" type="Button" parent="." unique_id=112763770]
 layout_mode = 2
 text = "Quit"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=13935866]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HFlowContainer" unique_id=1996838740]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HFlowContainer/MarginContainer" unique_id=53031914]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HFlowContainer/MarginContainer" unique_id=1340702527]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="HFlowContainer/MarginContainer/VBoxContainer" unique_id=2044957808]
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_jb71b")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HFlowContainer/MarginContainer/VBoxContainer" unique_id=310290700]
+layout_mode = 2
+text = "Cyan"
 
 [connection signal="pressed" from="HBoxContainer/TrainerSelect" to="." method="_on_trainer_select_pressed"]
 [connection signal="pressed" from="HBoxContainer/SpectatorSelect" to="." method="_on_spectator_select_pressed"]

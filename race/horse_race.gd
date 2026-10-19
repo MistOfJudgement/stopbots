@@ -8,7 +8,8 @@ func _ready() -> void:
 		printerr("how did we get here")
 	for player: GameState.PlayerInfo in GameState.active_players():
 		var tmp :Node2D= horse_template.instantiate()
-		tmp.global_position = $Spawn.global_position
+		var offset :Vector2 = Vector2(randf_range(-10, 10), randf_range(-10, 10))
+		tmp.global_position = $Spawn.global_position + offset
 		add_child(tmp)
 		horses.append(tmp)
 		print(player.name)

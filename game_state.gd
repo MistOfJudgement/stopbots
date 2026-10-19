@@ -31,6 +31,8 @@ class PlayerInfo:
 	var connection_id: String
 	var role: Role
 	var name: String
+	var horse_info: HorseData
+	var player_stats: PlayerStats
 
 var players: Dictionary[String, PlayerInfo] = {}
 
@@ -188,7 +190,7 @@ func on_system_message(type: String, data: Dictionary) -> void:
 				if current_game_state == GameStateType.Lobby:
 					var info = PlayerInfo.new()
 					info.connection_id = source_id
-					info.role = Role.Spectator
+					info.role = Role.Player
 					info.name = "Connecting..."
 					players[source_id] = info
 					player_list_changed.emit()
