@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="HorseDb" format=3 uid="uid://dv8wqu65wx2j0"]
+
+[ext_resource type="Script" uid="uid://c1nr8v616bkse" path="res://horse/horse_data.gd" id="1_q8tou"]
+[ext_resource type="Script" uid="uid://dvgal2xyeunkt" path="res://horse/horse_db.gd" id="2_h8l2i"]
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="2_r51fa"]
+[ext_resource type="Texture2D" uid="uid://bmrb71x8nniw1" path="res://horse/assets/Blue2_Angles.png" id="3_nlvyj"]
+[ext_resource type="Texture2D" uid="uid://ciuq6mkygfx77" path="res://horse/assets/BOX_2_Eyes.png" id="4_vo7by"]
+[ext_resource type="Texture2D" uid="uid://dids1tx3jr4uo" path="res://horse/assets/COM_0_Eyes.png" id="5_qcj5v"]
+[ext_resource type="Texture2D" uid="uid://ca5uwisl520gu" path="res://horse/assets/KNB_3_Eyes.png" id="6_to1f8"]
+[ext_resource type="Texture2D" uid="uid://ccjly6l7c0vvh" path="res://horse/assets/MRY_2_Eyes.png" id="7_ihogu"]
+[ext_resource type="Texture2D" uid="uid://2f1ycdunarma" path="res://horse/assets/RES_0_Eyes.png" id="8_qd4m6"]
+[ext_resource type="Texture2D" uid="uid://coaotnf1343lx" path="res://horse/assets/SUP_2_Eyes.png" id="9_krdvi"]
+[ext_resource type="Texture2D" uid="uid://i4gvikbjtu5e" path="res://horse/assets/YEL_3_Eyes.png" id="10_vx60u"]
+
+[sub_resource type="Resource" id="Resource_w4tlg"]
+script = ExtResource("1_q8tou")
+full_name = "Cyan"
+short_name = "00B"
+sprite_sheet = ExtResource("2_r51fa")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_hn7yp"]
+script = ExtResource("1_q8tou")
+full_name = "Bullet'n Board"
+short_name = "BUL"
+sprite_sheet = ExtResource("3_nlvyj")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_774gc"]
+script = ExtResource("1_q8tou")
+full_name = "Downtown Skybox"
+short_name = "BOX"
+sprite_sheet = ExtResource("4_vo7by")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_722cr"]
+script = ExtResource("1_q8tou")
+full_name = "Comely Material Morning"
+short_name = "COM"
+sprite_sheet = ExtResource("5_qcj5v")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_1dl53"]
+script = ExtResource("1_q8tou")
+full_name = "Door Knob"
+short_name = "KNB"
+sprite_sheet = ExtResource("6_to1f8")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_s8i44"]
+script = ExtResource("1_q8tou")
+full_name = "Jovial Merryment"
+short_name = "MRY"
+sprite_sheet = ExtResource("7_ihogu")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_452yy"]
+script = ExtResource("1_q8tou")
+full_name = "Resolute Mind Afternoon"
+short_name = "RES"
+sprite_sheet = ExtResource("8_qd4m6")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_r51fa"]
+script = ExtResource("1_q8tou")
+full_name = "Superstitional Realism"
+short_name = "SUP"
+sprite_sheet = ExtResource("9_krdvi")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[sub_resource type="Resource" id="Resource_nlvyj"]
+script = ExtResource("1_q8tou")
+full_name = "Lighting Strikes Thrice"
+short_name = "YEL"
+sprite_sheet = ExtResource("10_vx60u")
+metadata/_custom_type_script = "uid://c1nr8v616bkse"
+
+[resource]
+script = ExtResource("2_h8l2i")
+horses = Array[ExtResource("1_q8tou")]([SubResource("Resource_w4tlg"), SubResource("Resource_hn7yp"), SubResource("Resource_774gc"), SubResource("Resource_722cr"), SubResource("Resource_1dl53"), SubResource("Resource_s8i44"), SubResource("Resource_452yy"), SubResource("Resource_r51fa"), SubResource("Resource_nlvyj")])
+metadata/_custom_type_script = "uid://dvgal2xyeunkt"
