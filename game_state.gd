@@ -33,8 +33,10 @@ class PlayerInfo:
 	var name: String
 
 var players: Dictionary[String, PlayerInfo] = {}
+
 func active_players() -> Array[PlayerInfo]:
 	return players.values().filter(func(e): return e.role == Role.Player)
+
 # --- INITIALIZATION ---
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
@@ -60,69 +62,53 @@ func role_from_val(role_val: int) -> Role:
 	if role_val >= 0 and role_val < Role.size():
 		return Role.values()[role_val]
 	return Role.None
+
 # ============================================================================
 # SCENE & STATE TRANSITIONS
 # ============================================================================
 
-func goto_lobby() -> void:
-	# Only block if we are ALREADY in the lobby scene
-	if current_game_state == GameStateType.Lobby: return
+const SCENE_PATHS = {
+	GameStateType.Lobby: {
+		true: "res://lobby/lobby_screen.tscn",
+		false: "res://lobby/lobby_screen_client.tscn"
+	},
+	GameStateType.Race: {
+		true: "res://race/horse_race.tscn",
+		false: "res://race/horse_race_client.tscn"
+	},
+	GameStateType.Train: {
+		true: "res://training/training.tscn",
+		false: "res://training/training_client.tscn"
+	},
+	GameStateType.End: {
+		true: "res://win/win_screen.tscn",
+		false: "res://win/win_screen.tscn"
+	}
+}
 
-	current_game_state = GameStateType.Lobby
-	WsMultiplayer.send_data({
-		"type": "change_state",
-		"target_state": GameStateType.Lobby
-	})
-	if is_authority:
-		get_tree().change_scene_to_file("res://lobby/lobby_screen.tscn")
-	else:
-		get_tree().change_scene_to_file("res://lobby/lobby_screen_client.tscn")
-func goto_race() -> void:
-	if current_game_state == GameStateType.Race: return
-	current_game_state = GameStateType.Race
+func transition_to_state(target_state: GameStateType, notify_network: bool = true) -> void:
+	if current_game_state == target_state:
+		return
 
-	if is_authority:
-		# 1. Tell all connected clients to also switch to the race
+	current_game_state = target_state
+
+	if notify_network and is_authority:
 		WsMultiplayer.send_data({
 			"type": "change_state",
-			"target_state": GameStateType.Race
+			"target_state": target_state
 		})
-		# 2. Host changes its own scene
-		get_tree().change_scene_to_file("res://race/horse_race.tscn")
-	else:
-		# Client scene transition
-		get_tree().change_scene_to_file("res://race/horse_race_client.tscn")
-func goto_train() -> void:
-	if current_game_state == GameStateType.Train: return
-	current_game_state = GameStateType.Train
 
-	if is_authority:
-		# 1. Tell all connected clients to also switch to the race
-		WsMultiplayer.send_data({
-			"type": "change_state",
-			"target_state": GameStateType.Train
-		})
-		# 2. Host changes its own scene
-		get_tree().change_scene_to_file("res://training/training.tscn")
+	if SCENE_PATHS.has(target_state):
+		var scene_path = SCENE_PATHS[target_state][is_authority]
+		get_tree().change_scene_to_file(scene_path)
 	else:
-		# Client scene transition
-		get_tree().change_scene_to_file("res://training/training_client.tscn")
+		printerr("GlobalGameState: No scene mapped for state -> ", target_state)
 
-func goto_win() -> void:
-	if current_game_state == GameStateType.End: return
-	current_game_state = GameStateType.End
+func goto_lobby() -> void: transition_to_state(GameStateType.Lobby)
+func goto_race() -> void: transition_to_state(GameStateType.Race)
+func goto_train() -> void: transition_to_state(GameStateType.Train)
+func goto_win() -> void: transition_to_state(GameStateType.End)
 
-	if is_authority:
-		# 1. Tell all connected clients to also switch to the race
-		WsMultiplayer.send_data({
-			"type": "change_state",
-			"target_state": GameStateType.End
-		})
-		# 2. Host changes its own scene
-		get_tree().change_scene_to_file("res://win/win_screen.tscn")
-	else:
-		# Client scene transition
-		get_tree().change_scene_to_file("res://win/win_screen.tscn")
 # ============================================================================
 # NETWORK MESSAGE ROUTING (Incoming from WsMultiplayer)
 # ============================================================================
@@ -131,7 +117,6 @@ func on_data_message(event: NetworkEvent) -> void:
 	var raw_payload = event.payload
 	var payload: Dictionary = {}
 
-	# 1. Safely handle whether the payload came in as a JSON string or already a dictionary
 	if raw_payload is String:
 		var parsed = JSON.parse_string(raw_payload)
 		if parsed is Dictionary:
@@ -139,11 +124,9 @@ func on_data_message(event: NetworkEvent) -> void:
 	elif raw_payload is Dictionary:
 		payload = raw_payload
 
-	# 2. Add a debug print to see what type we actually extracted
 	var msg_type = payload.get("type", "UNKNOWN")
 	print("[DATA MSG PROCESSED] Type: ", msg_type, " from: ", event.sender_id)
 
-	# 3. Match the parsed type
 	match msg_type:
 		"sync_state":
 			print("-> HOST: Processing sync_state request for client: ", event.sender_id)
@@ -160,38 +143,29 @@ func on_data_message(event: NetworkEvent) -> void:
 				player.name = payload.get("name", "Unknown")
 				print("-> HOST: Updated name for ", event.sender_id, " to: ", player.name)
 				player_list_changed.emit()
+
 		"set_role":
 			if is_authority:
 				var player = get_or_create_player(event.sender_id)
 				player.role = role_from_val(int(payload["role"]))
 				player_list_changed.emit()
-				print("asdfoij ", active_players())
+
 		"sync_state_output":
 			if not is_authority:
 				print("-> CLIENT: Received sync_state_output from host!")
 				set_role(payload.get("role", Role.Spectator))
 				var target_state = int(payload.get("current_game_state", GameStateType.None))
-				
-				if target_state == GameStateType.Lobby:
-					goto_lobby()
-				elif target_state == GameStateType.Race:
-					goto_race()
+				transition_to_state(target_state, false)
+
 		"change_state":
 			if not is_authority:
 				var target_state = int(payload.get("target_state", GameStateType.None))
 				print("-> CLIENT: Host commanded state change to: ", target_state)
-				
-				match target_state:
-					GameStateType.Lobby:
-						goto_lobby()
-					GameStateType.Race:
-						goto_race()
-					GameStateType.Train:
-						goto_train() # Or whatever your next phase is
-					_:
-						printerr("Unknown target state received from host: ", target_state)
+				transition_to_state(target_state, false)
+
 		_:
 			print("-> UNKNOWN MESSAGE TYPE: ", msg_type)
+
 func on_system_message(type: String, data: Dictionary) -> void:
 	match type:
 		"authenticated":
@@ -203,11 +177,12 @@ func on_system_message(type: String, data: Dictionary) -> void:
 				sync_state()
 
 		"joined", "left":
-			# Only the host tracks global player joins/leaves
-			if not is_authority: return
+			if not is_authority:
+				return
 			
 			var source_id = data.get("source", "")
-			if source_id.is_empty(): return
+			if source_id.is_empty():
+				return
 
 			if type == "joined":
 				if current_game_state == GameStateType.Lobby:
@@ -235,13 +210,13 @@ func on_system_message(type: String, data: Dictionary) -> void:
 		_:
 			pass
 
-
 # ============================================================================
 # HELPER METHODS
 # ============================================================================
 
 func sync_state() -> void:
-	if is_authority: return
+	if is_authority:
+		return
 	WsMultiplayer.send_data({"type": "sync_state"})
 	WsMultiplayer.send_data({"type": "set_name", "name": player_name})
 
@@ -255,10 +230,15 @@ func get_or_create_player(connection_id: String) -> PlayerInfo:
 		player_list_changed.emit()
 	return players[connection_id]
 
-func on_disconnect():
+func on_disconnect() -> void:
 	reset()
 
-func reset():
+func reset() -> void:
 	current_game_state = GameStateType.None
 	role = Role.None
+	is_authority = false
+	room = ""
+	password = ""
+	players.clear() # Clear out stale sessions
+	player_list_changed.emit()
 	get_tree().change_scene_to_file("res://title_screen.tscn")
