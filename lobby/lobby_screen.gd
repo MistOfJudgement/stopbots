@@ -18,7 +18,9 @@ func _refresh_player_ui() -> void:
 	for id in GameState.players:
 		var player_info = GameState.players[id]
 		var name_label := Label.new()
-		name_label.text = player_info.name + "(" + ("Player" if player_info.role == GameState.Role.Player else "Spectator") +")"
+		name_label.text = player_info.name + "(" + ("Player" if player_info.role == GameState.Role.Player else "Spectator") + ")"
+		if player_info.role == GameState.Role.Player:
+			name_label.text += HorseDb.MainDb.horses[player_info.horse_info].full_name
 		player_list.add_child(name_label)
 
 

@@ -31,7 +31,7 @@ class PlayerInfo:
 	var connection_id: String
 	var role: Role
 	var name: String
-	var horse_info: HorseData
+	var horse_info: int # lookup for horse info?
 	var player_stats: PlayerStats
 
 var players: Dictionary[String, PlayerInfo] = {}
@@ -150,8 +150,14 @@ func on_data_message(event: NetworkEvent) -> void:
 			if is_authority:
 				var player = get_or_create_player(event.sender_id)
 				player.role = role_from_val(int(payload["role"]))
+				if player.role == Role.Player:
+					player.horse_info = randi_range(0, len(HorseDb.MainDb.horses) - 1)
 				player_list_changed.emit()
-
+		"set_horse":
+			if is_authority:
+				var player = get_or_create_player(event.sender_id)
+				player.horse_info = int(payload["horse"])
+				player_list_changed.emit()
 		"sync_state_output":
 			if not is_authority:
 				print("-> CLIENT: Received sync_state_output from host!")

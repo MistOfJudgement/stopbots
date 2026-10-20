@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bco301oigheux"]
+
+[ext_resource type="Script" uid="uid://jfdmae33v8hx" path="res://lobby/horse_button.gd" id="1_fbj6g"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_e8012"]
+load_path = "res://.godot/imported/00B_2_Eyes.png-3b9329b764301c2609110155c867be31.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbj6g"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_e8012")
+region = Rect2(0, 0, 29, 27.5)
+
+[node name="HorseButton" type="PanelContainer" unique_id=181063295]
+offset_right = 298.0
+offset_bottom = 152.0
+script = ExtResource("1_fbj6g")
+
+[node name="Button" type="Button" parent="." unique_id=1527406794]
+layout_mode = 2
+
+[node name="Control" type="MarginContainer" parent="." unique_id=1563057041]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=220212983]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/VBoxContainer" unique_id=1693259663]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/CenterContainer" unique_id=2074776580]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_fbj6g")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="Control/VBoxContainer" unique_id=2141544438]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Jovial Merrymentasdfasdf"
