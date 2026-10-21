@@ -4,7 +4,7 @@ extends VBoxContainer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
-	if GameState.role == GameState.Role.Player:
+	if GameState.current_player.role == GameState.Role.Player:
 		info_text.text = "Cheer on your horse"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,11 +23,10 @@ func on_data_message(message: NetworkEvent):
 	var payload: Dictionary = message.payload
 	match payload["type"]:
 		"announce_racers":
-			if GameState.role == GameState.Role.Spectator:
+			if GameState.current_player.role == GameState.Role.Spectator:
 				print("payload::::: ", payload)
 				load_racer(payload["players"])
 				get_tree().create_timer(int(payload["timeout"]) - Time.get_unix_time_from_system()).timeout.connect(end_betting_time)
 func end_betting_time():
 	$HFlowContainer.visible = false
 	$HBoxContainer.visible = false
-	

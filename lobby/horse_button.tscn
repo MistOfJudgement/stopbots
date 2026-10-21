@@ -16,10 +16,13 @@ offset_bottom = 152.0
 script = ExtResource("1_fbj6g")
 
 [node name="Button" type="Button" parent="." unique_id=1527406794]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Control" type="MarginContainer" parent="." unique_id=1563057041]
 layout_mode = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 15

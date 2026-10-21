@@ -1,7 +1,7 @@
 class_name WebsocketConnector
 extends Node
 
-var events:= [
+var events: Array[StringName]= [
 	&"on_connect",
 	&"on_disconnect",
 	&"on_data_message",

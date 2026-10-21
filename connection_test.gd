@@ -12,4 +12,4 @@ func on_disconnect():
 	connection_status.text = "disconnected"
 
 func _process(delta: float) -> void:
-	state_status.text = str(GameState.current_game_state) + " " + str(GameState.role)
+	state_status.text = str(GameState.current_game_state) + " " + str(GameState.current_player.role)

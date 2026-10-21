@@ -23,9 +23,8 @@ var current_game_state: GameStateType = GameStateType.None
 var room: String = ""
 var password: String = ""
 var is_authority: bool = false
-var role: Role = Role.None
-var player_name: String = "Player_" + str(randi() % 1000)
 
+var current_player: PlayerInfo = PlayerInfo.new()
 # --- PLAYER MANAGEMENT ---
 class PlayerInfo:
 	var connection_id: String
@@ -37,7 +36,7 @@ class PlayerInfo:
 var players: Dictionary[String, PlayerInfo] = {}
 
 func active_players() -> Array[PlayerInfo]:
-	return players.values().filter(func(e): return e.role == Role.Player)
+	return players.values().filter(func(e: PlayerInfo) -> bool: return e.role == Role.Player)
 
 # --- INITIALIZATION ---
 func _ready() -> void:
@@ -51,14 +50,14 @@ func set_authority(role_str: String) -> void:
 	match role_str.to_lower():
 		"host":
 			is_authority = true
-			role = Role.Host
+			current_player.role = Role.Host
 		"client":
 			is_authority = false
 		_:
 			printerr("GlobalGameState: Unknown role received -> ", role_str)
 
 func set_role(role_val: int) -> void:
-	role = role_from_val(role_val)
+	current_player.role = role_from_val(role_val)
 
 func role_from_val(role_val: int) -> Role:
 	if role_val >= 0 and role_val < Role.size():
@@ -68,24 +67,33 @@ func role_from_val(role_val: int) -> Role:
 # ============================================================================
 # SCENE & STATE TRANSITIONS
 # ============================================================================
-
-const SCENE_PATHS = {
-	GameStateType.Lobby: {
+class ScopedScene:
+	var host_scene_path: String
+	var client_scene_path: String
+	func _init(authDict: Dictionary[bool, String]) -> void:
+		host_scene_path = authDict[true]
+		client_scene_path = authDict[false]
+	
+	func pull(is_auth: bool) -> String:
+		return host_scene_path if is_auth else client_scene_path
+	
+var SCENE_PATHS: Dictionary[GameStateType, ScopedScene] = {
+	GameStateType.Lobby: ScopedScene.new({
 		true: "res://lobby/lobby_screen.tscn",
 		false: "res://lobby/lobby_screen_client.tscn"
-	},
-	GameStateType.Race: {
+	}),
+	GameStateType.Race: ScopedScene.new({
 		true: "res://race/horse_race.tscn",
 		false: "res://race/horse_race_client.tscn"
-	},
-	GameStateType.Train: {
+	}),
+	GameStateType.Train: ScopedScene.new({
 		true: "res://training/training.tscn",
 		false: "res://training/training_client.tscn"
-	},
-	GameStateType.End: {
+	}),
+	GameStateType.End: ScopedScene.new({
 		true: "res://win/win_screen.tscn",
 		false: "res://win/win_screen.tscn"
-	}
+	})
 }
 
 func transition_to_state(target_state: GameStateType, notify_network: bool = true) -> void:
@@ -101,8 +109,8 @@ func transition_to_state(target_state: GameStateType, notify_network: bool = tru
 		})
 
 	if SCENE_PATHS.has(target_state):
-		var scene_path = SCENE_PATHS[target_state][is_authority]
-		get_tree().change_scene_to_file(scene_path)
+		var scene := SCENE_PATHS[target_state]
+		get_tree().change_scene_to_file(scene.pull(is_authority))
 	else:
 		printerr("GlobalGameState: No scene mapped for state -> ", target_state)
 
@@ -126,13 +134,13 @@ func on_data_message(event: NetworkEvent) -> void:
 	elif raw_payload is Dictionary:
 		payload = raw_payload
 
-	var msg_type = payload.get("type", "UNKNOWN")
+	var msg_type: String = payload.get("type", "UNKNOWN")
 	print("[DATA MSG PROCESSED] Type: ", msg_type, " from: ", event.sender_id)
 
 	match msg_type:
 		"sync_state":
 			print("-> HOST: Processing sync_state request for client: ", event.sender_id)
-			var player = get_or_create_player(event.sender_id)
+			var player := get_or_create_player(event.sender_id)
 			WsMultiplayer.send_data({
 				"type": "sync_state_output",
 				"role": player.role,
@@ -141,28 +149,63 @@ func on_data_message(event: NetworkEvent) -> void:
 
 		"set_name":
 			if is_authority:
-				var player = get_or_create_player(event.sender_id)
+				var player := get_or_create_player(event.sender_id)
 				player.name = payload.get("name", "Unknown")
 				print("-> HOST: Updated name for ", event.sender_id, " to: ", player.name)
 				player_list_changed.emit()
 
 		"set_role":
 			if is_authority:
-				var player = get_or_create_player(event.sender_id)
+				var player := get_or_create_player(event.sender_id)
 				player.role = role_from_val(int(payload["role"]))
+				#check if can then send to one person
 				if player.role == Role.Player:
-					player.horse_info = randi_range(0, len(HorseDb.MainDb.horses) - 1)
+					if is_all_horses_selected():
+						return # unable to assign horse
+					
+					var remaining_horses: Array = get_unpicked_horses()
+					player.horse_info = remaining_horses.pick_random()
+					WsMultiplayer.send_data_to(player.connection_id, {
+						"type": "set_horse_output",
+						"horse": player.horse_info
+					})
+					WsMultiplayer.send_data({
+						"type": "update_remaining_horses",
+						"remaining": get_unpicked_horses()
+					})
+				WsMultiplayer.send_data_to(player.connection_id, {
+					"type": "set_role_output",
+					"role": player.role,
+				})
+				player_list_changed.emit()
+		"set_role_output":
+			if not is_authority:
+				set_role(int(payload["role"])) # validation on client is not needed
 				player_list_changed.emit()
 		"set_horse":
 			if is_authority:
-				var player = get_or_create_player(event.sender_id)
+				var player := get_or_create_player(event.sender_id)
 				player.horse_info = int(payload["horse"])
+				WsMultiplayer.send_data_to(player.connection_id, {
+					"type": "set_horse_output",
+					"horse": player.horse_info
+				})
+				WsMultiplayer.send_data({
+					"type": "update_remaining_horses",
+					"remaining": get_unpicked_horses()
+				})
 				player_list_changed.emit()
+		"set_horse_output":
+			if not is_authority:
+				var horse := int(payload["horse"])
+				current_player.horse_info = horse
+				player_list_changed.emit()
+
 		"sync_state_output":
 			if not is_authority:
 				print("-> CLIENT: Received sync_state_output from host!")
 				set_role(payload.get("role", Role.Spectator))
-				var target_state = int(payload.get("current_game_state", GameStateType.None))
+				var target_state := int(payload.get("current_game_state", GameStateType.None))
 				transition_to_state(target_state, false)
 
 		"change_state":
@@ -173,7 +216,13 @@ func on_data_message(event: NetworkEvent) -> void:
 
 		_:
 			print("-> UNKNOWN MESSAGE TYPE: ", msg_type)
-
+func is_all_horses_selected() -> bool:
+	return active_players().size() >= HorseDb.MainDb.horses.size()
+func get_unpicked_horses() -> Array[int]:
+	var out: Array = range(0, HorseDb.MainDb.horses.size())
+	for player in active_players():
+		out.erase(player.horse_info)
+	return out as Array[int]
 func on_system_message(type: String, data: Dictionary) -> void:
 	match type:
 		"authenticated":
@@ -226,7 +275,9 @@ func sync_state() -> void:
 	if is_authority:
 		return
 	WsMultiplayer.send_data({"type": "sync_state"})
-	WsMultiplayer.send_data({"type": "set_name", "name": player_name})
+	if not current_player.name:
+		current_player.name = "Player_{}".format(randi_range(1, 999))
+	WsMultiplayer.send_data({"type": "set_name", "name": current_player.name})
 
 func get_or_create_player(connection_id: String) -> PlayerInfo:
 	if not players.has(connection_id):
@@ -243,7 +294,7 @@ func on_disconnect() -> void:
 
 func reset() -> void:
 	current_game_state = GameStateType.None
-	role = Role.None
+	set_role(Role.None)
 	is_authority = false
 	room = ""
 	password = ""

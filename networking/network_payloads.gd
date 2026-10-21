@@ -10,7 +10,7 @@ static func from_dict(d: Dictionary) -> NetworkEvent:
 	ev.sender_id = d.get("from", "")
 	ev.timestamp = int(d.get("timestamp", 0))
 
-	var raw_payload = d.get("payload")
+	var raw_payload :Variant= d.get("payload")
 	if raw_payload is String:
 		var json := JSON.new()
 		if json.parse(raw_payload) == OK:

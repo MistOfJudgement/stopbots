@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://g7a3eepdxnko" path="res://lobby/lobby_screen_client.gd" id="1_jqq8v"]
 [ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://lobby/chat_menu.gd" id="2_jlxtr"]
 [ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="3_4pgaq"]
-[ext_resource type="PackedScene" uid="uid://bco301oigheux" path="res://lobby/horse_button.tscn" id="4_jlxtr"]
 
 [node name="LobbyScreenClient" type="VBoxContainer" unique_id=1451473517]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jqq8v")
@@ -24,19 +24,22 @@ text = "ABCD"
 [node name="Name" type="Label" parent="." unique_id=502235775]
 layout_mode = 2
 
+[node name="HorseLabel" type="Label" parent="." unique_id=665804058]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=604494398]
 layout_mode = 2
 
 [node name="TrainerSelect" type="Button" parent="HBoxContainer" unique_id=1771856804]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "I want to train a horse"
+text = "Trainer"
 
 [node name="SpectatorSelect" type="Button" parent="HBoxContainer" unique_id=403187820]
 layout_mode = 2
 size_flags_horizontal = 3
 disabled = true
-text = "I want to bet on horses"
+text = "Spectator"
 
 [node name="ChatMenu" type="VBoxContainer" parent="." unique_id=1411039207]
 visible = false
@@ -61,10 +64,7 @@ text = "Quit"
 
 [node name="HorseButtonContainer" type="HFlowContainer" parent="." unique_id=13935866]
 layout_mode = 2
-
-[node name="HorseButton" parent="HorseButtonContainer" unique_id=982958589 instance=ExtResource("4_jlxtr")]
-visible = false
-layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="pressed" from="HBoxContainer/TrainerSelect" to="." method="_on_trainer_select_pressed"]
 [connection signal="pressed" from="HBoxContainer/SpectatorSelect" to="." method="_on_spectator_select_pressed"]

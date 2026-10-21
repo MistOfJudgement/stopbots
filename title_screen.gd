@@ -2,7 +2,7 @@ extends VBoxContainer
 
 @onready var roomInput := $HBoxContainer/RoomIDInput
 @onready var password := $HBoxContainer/PasswordInput2
-@onready var nameInput := $HBoxContainer/NameInput
+@onready var nameInput: LineEdit = $HBoxContainer/NameInput
 
 func _ready() -> void:
 	if OS.has_feature("speed"):
@@ -11,14 +11,13 @@ func _ready() -> void:
 		_on_join_room_button_pressed()
 func _on_join_room_button_pressed() -> void:
 	if roomInput.text == "": return
-	GameState.player_name = nameInput.text
+	GameState.current_player.name = "Player_{}".format(randi_range(1, 999)) if nameInput.text.is_empty() else nameInput.text
 	WsMultiplayer.connect_to_server(roomInput.text)
 
 
 # 1. Triggered when the socket successfully connects
 func on_connect() -> void:
 	# Uses the clean typed helper we set up in WebsocketMultiplayer
-	GameState.player_name = nameInput.text
 	WsMultiplayer.send_authenticate(password.text)
 
 # 2. Handles non-game messages like auth success, errors, and joins

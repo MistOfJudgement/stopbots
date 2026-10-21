@@ -12,7 +12,7 @@ func _ready() -> void:
 		parse_spawn_pixels()
 
 func generate_outer_boundaries() -> void:
-	var img_size = map_texture.get_size()
+	var img_size := map_texture.get_size()
 	
 	# Automatically build 4 outer walls matching the image dimensions
 	create_wall_box(Vector2(img_size.x / 2, -10), Vector2(img_size.x, 20))                 # Top Wall
@@ -21,15 +21,15 @@ func generate_outer_boundaries() -> void:
 	create_wall_box(Vector2(img_size.x + 10, img_size.y / 2), Vector2(20, img_size.y))      # Right Wall
 
 func create_wall_box(pos: Vector2, size: Vector2) -> void:
-	var collision_shape = CollisionShape2D.new()
-	var rect_shape = RectangleShape2D.new()
+	var collision_shape := CollisionShape2D.new()
+	var rect_shape := RectangleShape2D.new()
 	rect_shape.size = size
 	collision_shape.shape = rect_shape
 	collision_shape.position = pos
 	static_body_2d.add_child(collision_shape)
 
 func parse_spawn_pixels() -> void:
-	var image = map_texture.get_image()
+	var image := map_texture.get_image()
 	if not image:
 		return
 		
@@ -38,7 +38,7 @@ func parse_spawn_pixels() -> void:
 		
 	for x in range(image.get_width()):
 		for y in range(image.get_height()):
-			var pixel_color = image.get_pixel(x, y)
+			var pixel_color := image.get_pixel(x, y)
 			
 			# Red pixel = Horse spawn
 			#if pixel_color.is_equal_approx(Color.RED):
@@ -49,7 +49,7 @@ func parse_spawn_pixels() -> void:
 				#spawn_entity("res://scenes/carrot.tscn", Vector2(x, y))
 
 func spawn_entity(scene_path: String, spawn_position: Vector2) -> void:
-	var scene = load(scene_path)
+	var scene := load(scene_path)
 	if scene:
 		var instance = scene.instantiate()
 		instance.position = spawn_position

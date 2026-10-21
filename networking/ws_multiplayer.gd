@@ -63,6 +63,12 @@ func send_authenticate(password: String) -> void:
 # Use send_data when communicating between host and client
 func send_data(event_data: Variant) -> void:
 	var payload_string: String = event_data if event_data is String else JSON.stringify(event_data)
-	var final_json = JSON.stringify({"type": "data", "payload": payload_string})
+	var final_json := JSON.stringify({"type": "data", "payload": payload_string})
+	print("[WS SEND] -> ", final_json) # <-- ADD THIS LOG
+	socket.send_text(final_json)
+
+func send_data_to(to: String, event_data: Variant) -> void:
+	var payload_string: String = event_data if event_data is String else JSON.stringify(event_data)
+	var final_json := JSON.stringify({"type": "data", "payload": payload_string, "to": to})
 	print("[WS SEND] -> ", final_json) # <-- ADD THIS LOG
 	socket.send_text(final_json)
