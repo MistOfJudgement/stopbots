@@ -1,21 +1,19 @@
 extends Node2D
 
-@export var horse_template:= preload("res://race/horse.tscn")
+@export var horse_template := preload("res://race/horse.tscn")
 var horses: Array[Node2D] = []
+@onready var map: HrtMap = $Map1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
 	for player: GameState.PlayerInfo in GameState.active_players():
-		var tmp :HorseBody= horse_template.instantiate()
-		tmp.set_horse(HorseDb.MainDb.horses[player.horse_info])
-		var offset :Vector2 = Vector2(randf_range(-10, 10), randf_range(-10, 10))
-		tmp.global_position = $Spawn.global_position + offset
-		add_child(tmp)
-		horses.append(tmp)
-		print(player.name)
-			
-	pass # Replace with function body.
+		var tmp := HorseStats.new()
+		tmp.horse_info = player.horse_info
+		tmp.speed = 1
+		tmp.power = 1
+		map.spawn_horses(tmp)
+
 	WsMultiplayer.send_data({
 		"type": "announce_racers",
 		"timeout": Time.get_unix_time_from_system() + 10,
@@ -28,6 +26,7 @@ func _ready() -> void:
 	
 func _on_start_timer_timeout() -> void:
 	#remove starting gate
+	map.open_gate()
 	pass
 
 

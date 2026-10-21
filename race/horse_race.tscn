@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dgyn5oi1lfcsq"]
 
 [ext_resource type="Script" uid="uid://b62eq7tmtuvpf" path="res://race/horse_race.gd" id="1_84n4f"]
+[ext_resource type="PackedScene" uid="uid://vcmvgorcuxm6" path="res://race/maps/map1.tscn" id="2_84n4f"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_che5y"]
 load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba46393f6fb1a.ctex"
@@ -8,16 +9,19 @@ load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba4639
 [node name="HorseRace" type="Node2D" unique_id=1938278164]
 script = ExtResource("1_84n4f")
 
+[node name="Map1" parent="." unique_id=90955812 instance=ExtResource("2_84n4f")]
+
 [node name="Node2D" type="Node2D" parent="." unique_id=85039748]
+visible = false
 
 [node name="HrtMap1Outline1" type="Sprite2D" parent="Node2D" unique_id=875653764]
 texture = SubResource("CompressedTexture2D_che5y")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=2056783106]
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=394593413]
 
 [node name="StartTimer" type="Timer" parent="." unique_id=1516668933]
+wait_time = 4.0
+autostart = true
 
 [node name="Spawn" type="Marker2D" parent="." unique_id=430846175]
 position = Vector2(-247, -141)

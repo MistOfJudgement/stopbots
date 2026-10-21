@@ -21,12 +21,11 @@ metadata/_custom_type_script = "uid://cxoi5bw1bgb6k"
 texture = SubResource("CompressedTexture2D_xbx23")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402442049]
-zoom = Vector2(1.36, 1.36)
 
 [node name="Spawn" type="Marker2D" parent="." unique_id=669772675]
 position = Vector2(-247, -141)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=35994420]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=35994420 groups=["starting_gate"]]
 position = Vector2(-107, -129)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1597141200]
