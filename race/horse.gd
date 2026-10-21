@@ -1,7 +1,7 @@
 class_name HorseBody
 extends CharacterBody2D
 
-@export var forward_thrust: float = 150.0
+#@export var forward_thrust: float = 150.0
 var map_sprite: Sprite2D
 var stats: HorseStats
 var straightaway_boost: float = 1.0
@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 		i += 1
 	#if i == 30: return
 	var collision := move_and_collide(velocity * delta * straightaway_boost)
-	straightaway_boost += 0.1
+	#straightaway_boost += 0.1
 	if collision:
 		straightaway_boost = 1.0
 		velocity = velocity.bounce(collision.get_normal())

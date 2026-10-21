@@ -18,7 +18,8 @@ func win(body: Node2D) -> void:
 	for i in horses:
 		i.process_mode = Node.PROCESS_MODE_DISABLED
 	body.modulate.b = 1.0
-	pass
+	create_tween().tween_property($Camera2D, "offset", body.global_position, 3)
+	create_tween().tween_property($Camera2D, "zoom", Vector2.ONE * 5, 3)
 func spawn_horses(horse_stats: HorseStats) -> void:
 	var tmp: HorseBody = horse_template.instantiate()
 	tmp.set_horse(horse_stats)

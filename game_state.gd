@@ -22,7 +22,7 @@ enum Role {
 var current_game_state: GameStateType = GameStateType.None
 var room: String = ""
 var password: String = ""
-var is_authority: bool = false
+var is_authority: bool = true
 
 var current_player: PlayerInfo = PlayerInfo.new()
 # --- PLAYER MANAGEMENT ---

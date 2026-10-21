@@ -7,13 +7,18 @@ var horses: Array[Node2D] = []
 func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
-	for player: GameState.PlayerInfo in GameState.active_players():
+	#for player: GameState.PlayerInfo in GameState.active_players():
+		#var tmp := HorseStats.new()
+		#tmp.horse_info = player.horse_info
+		#tmp.speed = 3
+		#tmp.power = 1
+		#map.spawn_horses(tmp)
+	for i in range(len(HorseDb.MainDb.horses)):
 		var tmp := HorseStats.new()
-		tmp.horse_info = player.horse_info
-		tmp.speed = 1
+		tmp. horse_info = i
+		tmp.speed = 2
 		tmp.power = 1
 		map.spawn_horses(tmp)
-
 	WsMultiplayer.send_data({
 		"type": "announce_racers",
 		"timeout": Time.get_unix_time_from_system() + 10,
