@@ -169,10 +169,10 @@ func on_data_message(event: NetworkEvent) -> void:
 						"type": "set_horse_output",
 						"horse": player.horse_info
 					})
-					WsMultiplayer.send_data({
-						"type": "update_remaining_horses",
-						"remaining": get_unpicked_horses()
-					})
+				WsMultiplayer.send_data({
+					"type": "update_remaining_horses",
+					"remaining": get_unpicked_horses()
+				})
 				WsMultiplayer.send_data_to(player.connection_id, {
 					"type": "set_role_output",
 					"role": player.role,

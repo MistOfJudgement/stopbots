@@ -17,10 +17,13 @@ func _ready() -> void:
 	GameState.player_list_changed.connect(refresh_ui)
 	refresh_ui()
 func refresh_ui() -> void:
+	toggle_buttons(GameState.current_player.role == GameState.Role.Spectator)
 	for i in range(loaded_buttons.size()):
 		loaded_buttons[i].set_disabled(not (i in remaining_horses))
 	if GameState.current_player.role == GameState.Role.Player:
 		$HorseLabel.text = HorseDb.MainDb.horses[GameState.current_player.horse_info].full_name
+	else:
+		$HorseLabel.text = ""
 func on_data_message(message: NetworkEvent) -> void:
 	var payload: Dictionary = message.payload
 	match payload.get("type"):
@@ -33,7 +36,9 @@ func on_data_message(message: NetworkEvent) -> void:
 			
 	$ChatMenu.on_data_message(message)
 
-
+func toggle_buttons(set_spectator: bool) -> void:
+	$HBoxContainer/TrainerSelect.disabled = not set_spectator
+	$HBoxContainer/SpectatorSelect.disabled = set_spectator
 func on_horse_button_pressed(horse_i: int) -> void:
 	WsMultiplayer.send_data({
 		"type": "set_horse",
@@ -47,8 +52,7 @@ func _on_quit_pressed() -> void:
 
 func _on_trainer_select_pressed() -> void:
 	GameState.current_player.role = GameState.Role.Player
-	$HBoxContainer/TrainerSelect.disabled = true
-	$HBoxContainer/SpectatorSelect.disabled = false
+	toggle_buttons(false)
 	WsMultiplayer.send_data({
 		"type": "set_role",
 		"role": GameState.current_player.role
@@ -57,8 +61,7 @@ func _on_trainer_select_pressed() -> void:
 
 func _on_spectator_select_pressed() -> void:
 	GameState.current_player.role = GameState.Role.Spectator
-	$HBoxContainer/TrainerSelect.disabled = false
-	$HBoxContainer/SpectatorSelect.disabled = true
+	toggle_buttons(true)
 	WsMultiplayer.send_data({
 		"type": "set_role",
 		"role": GameState.current_player.role
