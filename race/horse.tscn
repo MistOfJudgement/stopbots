@@ -1,18 +1,23 @@
 [gd_scene format=3 uid="uid://dhyuulj6l6vpl"]
 
 [ext_resource type="Script" uid="uid://c21gvli33nh6p" path="res://race/horse.gd" id="1_o1ycu"]
-[ext_resource type="Texture2D" uid="uid://b4habog5c7ymx" path="res://CYN.png" id="2_7hddc"]
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="2_v1j2i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1j2i"]
+resource_local_to_scene = true
+atlas = ExtResource("2_v1j2i")
+region = Rect2(0, 0, 30, 28.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_embgu"]
-size = Vector2(31.319923, 30.359985)
+size = Vector2(27.99999, 28)
 
 [node name="hors" type="CharacterBody2D" unique_id=1246872788]
 script = ExtResource("1_o1ycu")
 
 [node name="Cyn" type="Sprite2D" parent="." unique_id=1582153211]
-scale = Vector2(0.2586207, 0.25862068)
-texture = ExtResource("2_7hddc")
+texture = SubResource("AtlasTexture_v1j2i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1280866551]
+position = Vector2(-0.9999999, 0)
 scale = Vector2(1.0000004, 1)
 shape = SubResource("RectangleShape2D_embgu")

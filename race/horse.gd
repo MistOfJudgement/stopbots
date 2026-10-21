@@ -1,8 +1,11 @@
+class_name HorseBody
 extends CharacterBody2D
 
 @export var forward_thrust: float = 150.0
 @onready var map_sprite: Sprite2D = $"../Node2D/HrtMap1Outline1"
 
+func set_horse(horse: HorseData) -> void:
+	$Cyn.texture.atlas = horse.sprite_sheet.duplicate(true)
 func _ready() -> void:
 	randomize_angle()
 func randomize_angle() -> void:

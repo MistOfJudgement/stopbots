@@ -7,7 +7,8 @@ func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
 	for player: GameState.PlayerInfo in GameState.active_players():
-		var tmp :Node2D= horse_template.instantiate()
+		var tmp :HorseBody= horse_template.instantiate()
+		tmp.set_horse(HorseDb.MainDb.horses[player.horse_info])
 		var offset :Vector2 = Vector2(randf_range(-10, 10), randf_range(-10, 10))
 		tmp.global_position = $Spawn.global_position + offset
 		add_child(tmp)
@@ -19,17 +20,12 @@ func _ready() -> void:
 		"type": "announce_racers",
 		"timeout": Time.get_unix_time_from_system() + 10,
 		"players": GameState.active_players().map(
-			func(e: GameState.PlayerInfo): return {
+			func(e: GameState.PlayerInfo) -> Dictionary: return {
 				"player_id": e.connection_id,
 				"player_name": e.name,
 			})
 	})
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
+	
 func _on_start_timer_timeout() -> void:
 	#remove starting gate
 	pass
