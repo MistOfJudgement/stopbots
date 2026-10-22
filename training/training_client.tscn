@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c7svh48yk3o7r"]
 
+[ext_resource type="Script" uid="uid://biq1k05ee5tfg" path="res://training/training_client.gd" id="1_87uvy"]
 [ext_resource type="Texture2D" uid="uid://ccjly6l7c0vvh" path="res://horse/assets/MRY_2_Eyes.png" id="1_ejero"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhk3b"]
@@ -12,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_87uvy")
 
 [node name="Title" type="Label" parent="." unique_id=721272590]
 layout_mode = 2
@@ -62,3 +64,5 @@ text = "TRAIN"
 [node name="Button" type="Button" parent="." unique_id=219774817]
 layout_mode = 2
 text = "DONE"
+
+[connection signal="pressed" from="HBoxContainer/SpeedBox/Button" to="." method="_on_speed_button_pressed"]

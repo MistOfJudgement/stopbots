@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Stopbots"
+config/name="Horse Race Tests Multiplay Training Fight"
+run/main_scene="uid://dhr7snygtdjgk"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

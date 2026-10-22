@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkp0lmafwh11x" path="res://title_screen.gd" id="1_v6p8y"]
 [ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="2_ak2if"]
+[ext_resource type="Texture2D" uid="uid://dh4wmdkoqp50l" path="res://horseracetest(1).png" id="2_ig5kc"]
 
 [node name="TitleScreen" type="VBoxContainer" unique_id=1587306072]
 anchors_preset = 8
@@ -19,10 +20,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_v6p8y")
 
-[node name="Title" type="Label" parent="." unique_id=150742928]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1193493627]
 layout_mode = 2
-text = "Horse Race Test"
-horizontal_alignment = 1
+size_flags_vertical = 3
+texture = ExtResource("2_ig5kc")
+expand_mode = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1580702043]
 layout_mode = 2
@@ -48,5 +50,8 @@ text = "Join Room"
 [node name="WebsocketConnector" type="Node" parent="." unique_id=866477787]
 script = ExtResource("2_ak2if")
 metadata/_custom_type_script = "uid://def8dhc17jsdb"
+
+[node name="Quit" type="Button" parent="." unique_id=1609569427]
+layout_mode = 2
 
 [connection signal="pressed" from="HBoxContainer/JoinRoomButton" to="." method="_on_join_room_button_pressed"]

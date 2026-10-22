@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 		#get_colliding_bodies()[0].get_angle_to(position)
 	var i := 0
 	while is_touching_wall(transform.origin + velocity * delta * straightaway_boost) and i < 20:
-		velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * stats.speed * 100
+		randomize_angle()
 		straightaway_boost = 1.0
 		i += 1
 	#if i == 30: return
