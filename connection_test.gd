@@ -1,15 +1,25 @@
 extends CanvasLayer
 
-@onready var connection_status := $VBoxContainer/Label
-@onready var state_status := $VBoxContainer/Label2
+@onready var connection_status := %status
+@onready var state_status := %state
 func _ready() -> void:
 	add_child(WebsocketConnector.new())
 	
-func on_connect():
+func on_connect() -> void:
 	connection_status.text = "connected"
 
-func on_disconnect():
+func on_disconnect() -> void:
 	connection_status.text = "disconnected"
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	state_status.text = str(GameState.current_game_state) + " " + str(GameState.current_player.role)
+	
+func on_data_message(event: NetworkEvent) -> void:
+	var log_label := Label.new()
+	log_label.text = str(event.payload)
+	%VBoxContainer.add_child(log_label)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.keycode == KEY_0 and event.is_pressed():
+			$Panel.visible = not $Panel.visible

@@ -141,7 +141,7 @@ func on_data_message(event: NetworkEvent) -> void:
 		"sync_state":
 			print("-> HOST: Processing sync_state request for client: ", event.sender_id)
 			var player := get_or_create_player(event.sender_id)
-			WsMultiplayer.send_data({
+			WsMultiplayer.send_data_to(event.sender_id, {
 				"type": "sync_state_output",
 				"role": player.role,
 				"current_game_state": current_game_state,
@@ -210,7 +210,7 @@ func on_data_message(event: NetworkEvent) -> void:
 
 		"change_state":
 			if not is_authority:
-				var target_state = int(payload.get("target_state", GameStateType.None))
+				var target_state := int(payload.get("target_state", GameStateType.None))
 				print("-> CLIENT: Host commanded state change to: ", target_state)
 				transition_to_state(target_state, false)
 
@@ -237,21 +237,21 @@ func on_system_message(type: String, data: Dictionary) -> void:
 			if not is_authority:
 				return
 			
-			var source_id = data.get("source", "")
+			var source_id: String = data.get("source", "")
 			if source_id.is_empty():
 				return
 
 			if type == "joined":
 				if current_game_state == GameStateType.Lobby:
-					var info = PlayerInfo.new()
+					var info := PlayerInfo.new()
 					info.connection_id = source_id
-					info.role = Role.Player
+					info.role = Role.Spectator
 					info.name = "Connecting..."
 					players[source_id] = info
 					player_list_changed.emit()
 				else:
 					if not players.has(source_id) or players[source_id] == null:
-						var info = PlayerInfo.new()
+						var info := PlayerInfo.new()
 						info.connection_id = source_id
 						info.role = Role.None # Late-join / waiting room
 						info.name = "Connecting..."
@@ -281,7 +281,7 @@ func sync_state() -> void:
 
 func get_or_create_player(connection_id: String) -> PlayerInfo:
 	if not players.has(connection_id):
-		var info = PlayerInfo.new()
+		var info := PlayerInfo.new()
 		info.connection_id = connection_id
 		info.role = Role.Spectator
 		info.name = "Connecting..."

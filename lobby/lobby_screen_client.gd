@@ -17,7 +17,7 @@ func _ready() -> void:
 	GameState.player_list_changed.connect(refresh_ui)
 	refresh_ui()
 func refresh_ui() -> void:
-	toggle_buttons(GameState.current_player.role == GameState.Role.Spectator)
+	toggle_buttons(GameState.current_player.role != GameState.Role.Player)
 	for i in range(loaded_buttons.size()):
 		loaded_buttons[i].set_disabled(not (i in remaining_horses))
 	if GameState.current_player.role == GameState.Role.Player:
@@ -51,8 +51,8 @@ func _on_quit_pressed() -> void:
 
 
 func _on_trainer_select_pressed() -> void:
-	GameState.current_player.role = GameState.Role.Player
-	toggle_buttons(false)
+	#GameState.current_player.role = GameState.Role.Player
+	#toggle_buttons(false)
 	WsMultiplayer.send_data({
 		"type": "set_role",
 		"role": GameState.current_player.role
@@ -60,8 +60,8 @@ func _on_trainer_select_pressed() -> void:
 
 
 func _on_spectator_select_pressed() -> void:
-	GameState.current_player.role = GameState.Role.Spectator
-	toggle_buttons(true)
+	#GameState.current_player.role = GameState.Role.Spectator
+	#toggle_buttons(true)
 	WsMultiplayer.send_data({
 		"type": "set_role",
 		"role": GameState.current_player.role
