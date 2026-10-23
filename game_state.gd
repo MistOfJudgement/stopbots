@@ -31,8 +31,7 @@ class PlayerInfo:
 	var role: Role
 	var name: String
 	var horse_info: int # lookup for horse info?
-	var player_stats: PlayerStats
-
+	var player_stats: PlayerStats = PlayerStats.new()
 var players: Dictionary[String, PlayerInfo] = {}
 
 func active_players() -> Array[PlayerInfo]:
@@ -256,11 +255,15 @@ func on_system_message(type: String, data: Dictionary) -> void:
 						info.role = Role.None # Late-join / waiting room
 						info.name = "Connecting..."
 						players[source_id] = info
-
+	
 			elif type == "left":
 				if current_game_state == GameStateType.Lobby:
 					players.erase(source_id)
 					player_list_changed.emit()
+					WsMultiplayer.send_data({
+						"type": "update_remaining_horses",
+						"remaining": get_unpicked_horses()
+					})
 				else:
 					if players.has(source_id) and players[source_id].role == Role.None:
 						players.erase(source_id)
@@ -285,6 +288,7 @@ func get_or_create_player(connection_id: String) -> PlayerInfo:
 		info.connection_id = connection_id
 		info.role = Role.Spectator
 		info.name = "Connecting..."
+		info.player_stats = PlayerStats.new()
 		players[connection_id] = info
 		player_list_changed.emit()
 	return players[connection_id]
@@ -301,3 +305,7 @@ func reset() -> void:
 	players.clear() # Clear out stale sessions
 	player_list_changed.emit()
 	get_tree().change_scene_to_file("res://title_screen.tscn")
+
+func clear_stats() -> void:
+	for p: PlayerInfo in players.values():
+		p.player_stats = PlayerStats.new()

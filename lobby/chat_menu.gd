@@ -45,7 +45,7 @@ func on_chat_send_pressed() -> void:
 	var message := MessageBody.new()
 	message.message = textInputBox.text
 	message.source = "Me" # Will be overwritten on the receiving end by server's 'from' id
-	message.timestamp = Time.get_unix_time_from_system()
+	message.timestamp = int(Time.get_unix_time_from_system())
 	
 	# Optionally show it locally right away
 	#add_message(message)

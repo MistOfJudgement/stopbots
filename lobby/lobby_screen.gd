@@ -16,7 +16,7 @@ func _refresh_player_ui() -> void:
 		
 	# Rebuild UI dynamically from GlobalGameState's dictionary
 	for id in GameState.players:
-		var player_info = GameState.players[id]
+		var player_info := GameState.players[id]
 		var name_label := Label.new()
 		name_label.text = player_info.name + "(" + ("Player" if player_info.role == GameState.Role.Player else "Spectator") + ")"
 		if player_info.role == GameState.Role.Player:

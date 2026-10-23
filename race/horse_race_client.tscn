@@ -20,10 +20,15 @@ layout_mode = 2
 text = "Choose who to bet on."
 label_settings = SubResource("LabelSettings_embgu")
 
+[node name="Money" type="Label" parent="." unique_id=1942960672]
+layout_mode = 2
+text = "You have {} to gamble with"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1338459111]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HBoxContainer" unique_id=582047243]
+[node name="incr" type="Button" parent="HBoxContainer" unique_id=582047243]
 layout_mode = 2
 theme = ExtResource("1_skuhy")
 text = "+10"
@@ -31,16 +36,20 @@ text = "+10"
 [node name="Label" type="Label" parent="HBoxContainer" unique_id=459407572]
 layout_mode = 2
 theme = ExtResource("1_skuhy")
-text = "XX"
+text = "{}"
 
-[node name="Button2" type="Button" parent="HBoxContainer" unique_id=271925044]
+[node name="dec" type="Button" parent="HBoxContainer" unique_id=271925044]
 layout_mode = 2
 theme = ExtResource("1_skuhy")
 text = "-10"
 
 [node name="HorseButtonContainer" type="HFlowContainer" parent="." unique_id=831958756]
+unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("2_dnxw7")
 metadata/_custom_type_script = "uid://cprl44vrh34xn"
 
 [node name="Timer" type="Timer" parent="." unique_id=1829868581]
+
+[connection signal="pressed" from="HBoxContainer/incr" to="." method="_on_incr_pressed"]
+[connection signal="pressed" from="HBoxContainer/dec" to="." method="_on_dec_pressed"]

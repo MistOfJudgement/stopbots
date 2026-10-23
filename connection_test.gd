@@ -18,7 +18,10 @@ func on_data_message(event: NetworkEvent) -> void:
 	var log_label := Label.new()
 	log_label.text = str(event.payload)
 	%VBoxContainer.add_child(log_label)
-
+func on_system_message(type: String, data: Dictionary) -> void:
+	var log_label := Label.new()
+	log_label.text = str(type, " ", data)
+	%VBoxContainer.add_child(log_label)
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.keycode == KEY_0 and event.is_pressed():

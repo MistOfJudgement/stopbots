@@ -1,13 +1,13 @@
 extends VBoxContainer
 
-var remaining_horses: Array = []
+var remaining_horses: Array[int] = []
 @onready var button_container: HorseButtonContainer = $HorseButtonContainer
 func _ready() -> void:
 	$Name.text = GameState.current_player.name
 	$RoomID.text = GameState.room
-	
 	for horse_i in len(HorseDb.MainDb.horses):
 		remaining_horses.append(horse_i)
+	button_container.setup_horses(remaining_horses)
 	GameState.player_list_changed.connect(refresh_ui)
 	refresh_ui()
 func refresh_ui() -> void:
@@ -25,7 +25,7 @@ func on_data_message(message: NetworkEvent) -> void:
 			GameState.goto_race()
 		"update_remaining_horses":
 			var remaining: Array = payload["remaining"]
-			remaining_horses = remaining.map(func(e: float) -> int: return int(e))
+			remaining_horses.assign(remaining.map(func(e: float) -> int: return int(e)))
 			refresh_ui()
 			
 	$ChatMenu.on_data_message(message)
