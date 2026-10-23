@@ -10,8 +10,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-func load_racer(players: Array):
-	print("players:::", players)
+func load_racer(players: Array) -> void:
 	for p in players:
 		print("player:", p)
 		var temp := Button.new()
@@ -19,14 +18,13 @@ func load_racer(players: Array):
 		$HFlowContainer.add_child(temp)
 	$HFlowContainer.visible = true
 	$HBoxContainer.visible = true
-func on_data_message(message: NetworkEvent):
+func on_data_message(message: NetworkEvent) -> void:
 	var payload: Dictionary = message.payload
 	match payload["type"]:
 		"announce_racers":
 			if GameState.current_player.role == GameState.Role.Spectator:
-				print("payload::::: ", payload)
 				load_racer(payload["players"])
 				get_tree().create_timer(int(payload["timeout"]) - Time.get_unix_time_from_system()).timeout.connect(end_betting_time)
-func end_betting_time():
+func end_betting_time() -> void:
 	$HFlowContainer.visible = false
 	$HBoxContainer.visible = false

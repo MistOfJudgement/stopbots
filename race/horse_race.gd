@@ -1,24 +1,28 @@
 extends Node2D
 
-@export var horse_template := preload("res://race/horse.tscn")
-var horses: Array[Node2D] = []
+@export var bet_template := preload("res://race/BetTracker.tscn")
 @onready var map: HrtMap = $Map1
+@onready var betting_container: Container = $CanvasLayer/MarginContainer/BettingContainer
+@onready var win_label: Label = $CanvasLayer/WinMessage
+class HorseBet:
+	var horse_i: int
+	var amt: int
+	func _init(i: int, a:int) -> void:
+		horse_i = i
+		amt = a
+var bets: Dictionary[String, HorseBet] = {}
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
-	#for player: GameState.PlayerInfo in GameState.active_players():
-		#var tmp := HorseStats.new()
-		#tmp.horse_info = player.horse_info
-		#tmp.speed = 3
-		#tmp.power = 1
-		#map.spawn_horses(tmp)
 	for i in range(len(HorseDb.MainDb.horses)):
-		var tmp := HorseStats.new()
-		tmp. horse_info = i
-		tmp.speed = 2
-		tmp.power = 1
+		var tmp := HorseStats.new(i)
 		map.spawn_horses(tmp)
+		var bet_temp: BetTracker = bet_template.instantiate()
+		bet_temp.set_bet(0)
+		bet_temp.set_horse(HorseDb.lookup(i))
+		betting_container.add_child(bet_temp)
+
 	WsMultiplayer.send_data({
 		"type": "announce_racers",
 		"timeout": Time.get_unix_time_from_system() + 10,
@@ -28,7 +32,6 @@ func _ready() -> void:
 				"player_name": e.name,
 			})
 	})
-	
 func _on_start_timer_timeout() -> void:
 	#remove starting gate
 	map.open_gate()
@@ -41,3 +44,34 @@ func _on_end_race_button_pressed() -> void:
 
 func _on_win_race_button_pressed() -> void:
 	GameState.goto_win()
+
+
+func _on_map_1_on_win(horse_i: int) -> void:
+	win_label.text = "{0} wins!".format(HorseDb.lookup(horse_i).full_name)
+	await get_tree().create_timer(5).timeout
+	GameState.goto_train()
+
+func on_data_message(event: NetworkEvent) -> void:
+	var payload:Dictionary= event.payload
+	match payload["type"]:
+		"submit_bet":
+			var player := GameState.get_or_create_player(event.sender_id)
+			var amount:= int(payload["amount"])
+			var horse_i := int(payload["horse_i"])
+			if player.role != GameState.Role.Spectator: return
+			place_bet(player.connection_id, horse_i, amount)
+
+func place_bet(player: String, horse_i: int, amount: int) -> void:
+	bets[player] = HorseBet.new(horse_i, amount)
+	update_bets_ui()
+
+func update_bets_ui() -> void:
+	var horse_bet_nodes : Array[BetTracker] = betting_container.get_children().filter(func (n: Node): return n is BetTracker)
+	var group_bets: Array[int] = []
+	group_bets.resize(horse_bet_nodes.size())
+	
+	for bet:HorseBet in bets.values():
+		group_bets[bet.horse_i] += bet.amt
+	
+	for i in range(len(horse_bet_nodes)):
+		horse_bet_nodes[i].set_bet(group_bets[i])

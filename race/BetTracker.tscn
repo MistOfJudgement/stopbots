@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bc3r11d6g3k5f"]
+
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="1_1h5c8"]
+[ext_resource type="Script" uid="uid://dji4346ad5mfg" path="res://race/bet_tracker.gd" id="1_mb45k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_embgu"]
+resource_local_to_scene = true
+atlas = ExtResource("1_1h5c8")
+region = Rect2(0, 0, 29.231659, 27.210358)
+
+[node name="BetTracker" type="PanelContainer" unique_id=548394579]
+script = ExtResource("1_mb45k")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1599030365]
+layout_mode = 2
+
+[node name="Nameplate" type="HBoxContainer" parent="VBox" unique_id=542223760]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBox/Nameplate" unique_id=1464954410]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CYN"
+
+[node name="TextureRect" type="TextureRect" parent="VBox/Nameplate" unique_id=1912193304]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("AtlasTexture_embgu")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="BetAmount" type="Label" parent="VBox" unique_id=1455504763]
+unique_name_in_owner = true
+layout_mode = 2
+text = "123"
+horizontal_alignment = 1

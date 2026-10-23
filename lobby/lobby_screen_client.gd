@@ -1,25 +1,19 @@
 extends VBoxContainer
 
-var horse_button := preload("res://lobby/horse_button.tscn")
-var loaded_buttons: Array[HorseButton] = []
 var remaining_horses: Array = []
+@onready var button_container: HorseButtonContainer = $HorseButtonContainer
 func _ready() -> void:
 	$Name.text = GameState.current_player.name
 	$RoomID.text = GameState.room
+	
 	for horse_i in len(HorseDb.MainDb.horses):
-		var tmp: HorseButton = horse_button.instantiate()
-		tmp.set_horse(horse_i)
-		tmp.set_disabled(false)
-		tmp.on_press.connect(on_horse_button_pressed)
-		loaded_buttons.append(tmp)
-		$HorseButtonContainer.add_child(tmp)
 		remaining_horses.append(horse_i)
 	GameState.player_list_changed.connect(refresh_ui)
 	refresh_ui()
 func refresh_ui() -> void:
 	toggle_buttons(GameState.current_player.role != GameState.Role.Player)
-	for i in range(loaded_buttons.size()):
-		loaded_buttons[i].set_disabled(not (i in remaining_horses))
+	for i in range(button_container.loaded_buttons.size()):
+		button_container.loaded_buttons[i].set_disabled(not (i in remaining_horses))
 	if GameState.current_player.role == GameState.Role.Player:
 		$HorseLabel.text = HorseDb.MainDb.horses[GameState.current_player.horse_info].full_name
 	else:
@@ -55,7 +49,7 @@ func _on_trainer_select_pressed() -> void:
 	#toggle_buttons(false)
 	WsMultiplayer.send_data({
 		"type": "set_role",
-		"role": GameState.current_player.role
+		"role": GameState.Role.Player
 	})
 
 
@@ -64,5 +58,9 @@ func _on_spectator_select_pressed() -> void:
 	#toggle_buttons(true)
 	WsMultiplayer.send_data({
 		"type": "set_role",
-		"role": GameState.current_player.role
+		"role": GameState.Role.Spectator
 	})
+
+
+func _on_horse_button_container_on_horse_button_pressed(i: int) -> void:
+	on_horse_button_pressed(i)

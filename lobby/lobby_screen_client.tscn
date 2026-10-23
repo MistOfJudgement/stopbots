@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://g7a3eepdxnko" path="res://lobby/lobby_screen_client.gd" id="1_jqq8v"]
 [ext_resource type="Script" uid="uid://bs2k7xiy71t3b" path="res://lobby/chat_menu.gd" id="2_jlxtr"]
 [ext_resource type="Script" uid="uid://def8dhc17jsdb" path="res://networking/ws_connector.gd" id="3_4pgaq"]
+[ext_resource type="Script" uid="uid://cprl44vrh34xn" path="res://horse_button_container.gd" id="4_jlxtr"]
 
 [node name="LobbyScreenClient" type="VBoxContainer" unique_id=1451473517]
 anchors_preset = 15
@@ -62,11 +63,14 @@ text = "SEND"
 layout_mode = 2
 text = "Quit"
 
-[node name="HorseButtonContainer" type="HFlowContainer" parent="." unique_id=13935866]
+[node name="HorseButtonContainer" type="HFlowContainer" parent="." unique_id=1436535325]
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("4_jlxtr")
+metadata/_custom_type_script = "uid://cprl44vrh34xn"
 
 [connection signal="pressed" from="HBoxContainer/TrainerSelect" to="." method="_on_trainer_select_pressed"]
 [connection signal="pressed" from="HBoxContainer/SpectatorSelect" to="." method="_on_spectator_select_pressed"]
 [connection signal="pressed" from="ChatMenu/ChatSend" to="ChatMenu" method="_on_chat_send_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="on_horse_button_pressed" from="HorseButtonContainer" to="." method="_on_horse_button_container_on_horse_button_pressed"]

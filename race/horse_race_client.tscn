@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://csijonxy71y6m" path="res://race/horse_race_client.gd" id="1_j7ak5"]
 [ext_resource type="Theme" uid="uid://cht54pfshound" path="res://general_theme.tres" id="1_skuhy"]
+[ext_resource type="Script" uid="uid://cprl44vrh34xn" path="res://horse_button_container.gd" id="2_dnxw7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_embgu"]
 font_size = 36
@@ -19,17 +20,7 @@ layout_mode = 2
 text = "Choose who to bet on."
 label_settings = SubResource("LabelSettings_embgu")
 
-[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1100411265]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="HFlowContainer" unique_id=1322735571]
-visible = false
-layout_mode = 2
-theme = ExtResource("1_skuhy")
-text = "CYN"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1338459111]
-visible = false
 layout_mode = 2
 
 [node name="Button" type="Button" parent="HBoxContainer" unique_id=582047243]
@@ -46,5 +37,10 @@ text = "XX"
 layout_mode = 2
 theme = ExtResource("1_skuhy")
 text = "-10"
+
+[node name="HorseButtonContainer" type="HFlowContainer" parent="." unique_id=831958756]
+layout_mode = 2
+script = ExtResource("2_dnxw7")
+metadata/_custom_type_script = "uid://cprl44vrh34xn"
 
 [node name="Timer" type="Timer" parent="." unique_id=1829868581]

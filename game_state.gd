@@ -124,11 +124,11 @@ func goto_win() -> void: transition_to_state(GameStateType.End)
 # ============================================================================
 
 func on_data_message(event: NetworkEvent) -> void:
-	var raw_payload = event.payload
+	var raw_payload: Variant = event.payload
 	var payload: Dictionary = {}
 
 	if raw_payload is String:
-		var parsed = JSON.parse_string(raw_payload)
+		var parsed: Variant = JSON.parse_string(raw_payload)
 		if parsed is Dictionary:
 			payload = parsed
 	elif raw_payload is Dictionary:

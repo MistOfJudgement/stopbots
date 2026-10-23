@@ -15,11 +15,16 @@ func _ready() -> void:
 			i.area.body_entered.connect(win)
 
 func win(body: Node2D) -> void:
+	if not body is HorseBody:
+		return
+	var h: HorseBody = body
 	for i in horses:
 		i.process_mode = Node.PROCESS_MODE_DISABLED
 	body.modulate.b = 1.0
-	create_tween().tween_property($Camera2D, "offset", body.global_position, 3)
-	create_tween().tween_property($Camera2D, "zoom", Vector2.ONE * 5, 3)
+	var zoom_time: int = 3
+	create_tween().tween_property($Camera2D, "offset", h.global_position, zoom_time)
+	create_tween().tween_property($Camera2D, "zoom", Vector2.ONE * 5, zoom_time)
+	get_tree().create_timer(zoom_time).timeout.connect(on_win.emit.bind(h.stats.horse_info))
 func spawn_horses(horse_stats: HorseStats) -> void:
 	var tmp: HorseBody = horse_template.instantiate()
 	tmp.set_horse(horse_stats)

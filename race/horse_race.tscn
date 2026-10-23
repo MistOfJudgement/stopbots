@@ -3,19 +3,10 @@
 [ext_resource type="Script" uid="uid://b62eq7tmtuvpf" path="res://race/horse_race.gd" id="1_84n4f"]
 [ext_resource type="PackedScene" uid="uid://vcmvgorcuxm6" path="res://race/maps/map1.tscn" id="2_84n4f"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_che5y"]
-load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba46393f6fb1a.ctex"
-
 [node name="HorseRace" type="Node2D" unique_id=1938278164]
 script = ExtResource("1_84n4f")
 
 [node name="Map1" parent="." unique_id=90955812 instance=ExtResource("2_84n4f")]
-
-[node name="Node2D" type="Node2D" parent="." unique_id=85039748]
-visible = false
-
-[node name="HrtMap1Outline1" type="Sprite2D" parent="Node2D" unique_id=875653764]
-texture = SubResource("CompressedTexture2D_che5y")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=394593413]
 
@@ -49,6 +40,33 @@ offset_right = 262.0
 grow_vertical = 0
 text = "Win Race Early"
 
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1561049822]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 144.0
+grow_horizontal = 2
+size_flags_horizontal = 6
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="BettingContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=2108995877]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WinMessage" type="Label" parent="CanvasLayer" unique_id=1966660940]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -25.0
+offset_right = 20.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="on_win" from="Map1" to="." method="_on_map_1_on_win"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/EndRaceButton" to="." method="_on_end_race_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/WinRaceButton" to="." method="_on_win_race_button_pressed"]
