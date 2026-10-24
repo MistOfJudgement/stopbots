@@ -12,7 +12,7 @@ func on_disconnect() -> void:
 	connection_status.text = "disconnected"
 
 func _process(_delta: float) -> void:
-	state_status.text = str(GameState.current_game_state) + " " + str(GameState.current_player.role)
+	state_status.text = str(GameState.current_game_state) + " " + str(GameState.current_player.role) + " " + str(GameState.is_authority)
 	
 func on_data_message(event: NetworkEvent) -> void:
 	var log_label := Label.new()

@@ -9,8 +9,11 @@ func _ready() -> void:
 		roomInput.text = "Test"
 		nameInput.text = "TestClient" + str(randi() % 50)
 		_on_join_room_button_pressed()
+
+
 func _on_join_room_button_pressed() -> void:
 	if roomInput.text == "": return
+	if nameInput.text == "": return
 	GameState.current_player.name = "Player_{}".format(randi_range(1, 999)) if nameInput.text.is_empty() else nameInput.text
 	WsMultiplayer.connect_to_server(roomInput.text)
 

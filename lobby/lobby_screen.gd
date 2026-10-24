@@ -8,7 +8,30 @@ func _ready() -> void:
 	
 	# Populate the list immediately on scene load
 	_refresh_player_ui()
+	$MainControls/RoomID.text = GameState.room
+	gen_qr(get_url())
+func get_url() -> String:
+	if OS.has_feature('web'):
+		# Listen for incoming messages from JavaScript
+		var loc :String= JavaScriptBridge.eval('''
+			document.location.href;
+		''')
 
+		# Check if map data was successfully retrieved
+		return loc
+	return ""
+func gen_qr(tex: String) -> void:
+	var qr_code: QrCode = QrCode.new()
+
+	# choose the level of error correction (LOW, MEDIUM, QUARTILE, HIGH)
+	qr_code.error_correct_level = QrCode.ErrorCorrectionLevel.LOW
+
+	var texture: ImageTexture = qr_code.get_texture(tex) # Add your text here
+
+	var qr_code_image := $MainControls/TextureRect
+	qr_code_image.texture = texture
+
+	qr_code.queue_free() # clean up to avoid leaks
 func _refresh_player_ui() -> void:
 	# Clear existing labels safely
 	for child in player_list.get_children():
