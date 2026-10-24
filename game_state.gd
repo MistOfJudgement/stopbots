@@ -2,7 +2,7 @@ class_name GlobalGameState
 extends Node
 
 signal player_list_changed # Emitted so UI can update automatically
-
+signal player_game_states_synced
 enum GameStateType {
 	None,
 	Lobby,
@@ -32,6 +32,7 @@ class PlayerInfo:
 	var name: String
 	var horse_info: int # lookup for horse info?
 	var player_stats: PlayerStats = PlayerStats.new()
+	var scene_lock: bool = false
 var players: Dictionary[String, PlayerInfo] = {}
 
 func active_players() -> Array[PlayerInfo]:
@@ -99,14 +100,15 @@ func transition_to_state(target_state: GameStateType, notify_network: bool = tru
 	if current_game_state == target_state:
 		return
 
-	current_game_state = target_state
 
+	current_game_state = target_state
 	if notify_network and is_authority:
 		WsMultiplayer.send_data({
 			"type": "change_state",
 			"target_state": target_state
 		})
-
+	if players.size() > 0:
+		await player_game_states_synced
 	if SCENE_PATHS.has(target_state):
 		var scene := SCENE_PATHS[target_state]
 		get_tree().change_scene_to_file(scene.pull(is_authority))
@@ -212,9 +214,22 @@ func on_data_message(event: NetworkEvent) -> void:
 				var target_state := int(payload.get("target_state", GameStateType.None))
 				print("-> CLIENT: Host commanded state change to: ", target_state)
 				transition_to_state(target_state, false)
+				WsMultiplayer.send_data({
+					"type": "confirm_scene"
+				})
+		"confirm_scene":
+			if is_authority:
+				players[event.sender_id].scene_lock = true
+				var p_arr: Array[PlayerInfo] = []
+				p_arr.assign(players.values())
+				if p_arr.all(func(e: PlayerInfo) -> bool: return e.scene_lock):
+					for p in p_arr:
+						p.scene_lock = false
+					player_game_states_synced.emit()
 
 		_:
 			print("-> UNKNOWN MESSAGE TYPE: ", msg_type)
+
 func is_all_horses_selected() -> bool:
 	return active_players().size() >= HorseDb.MainDb.horses.size()
 func get_unpicked_horses() -> Array[int]:
