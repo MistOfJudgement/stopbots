@@ -3,7 +3,6 @@ extends Node2D
 
 signal on_win(horse_i: int)
 @export var spawn_point: Marker2D
-@export var map: Sprite2D
 @export var horse_template := preload("res://race/horse.tscn")
 
 
@@ -28,7 +27,6 @@ func win(body: Node2D) -> void:
 func spawn_horses(horse_stats: HorseStats) -> void:
 	var tmp: HorseBody = horse_template.instantiate()
 	tmp.set_horse(horse_stats)
-	tmp.map_sprite = map
 	var offset: Vector2 = Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	tmp.global_position = $Spawn.global_position + offset
 	add_child(tmp)

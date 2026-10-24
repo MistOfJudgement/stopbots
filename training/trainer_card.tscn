@@ -6,7 +6,7 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_embgu"]
 resource_local_to_scene = true
 atlas = ExtResource("1_d3stc")
-region = Rect2(0, 0, 24.770676, 29.349485)
+region = Rect2(0, 0, 25.886253, 29.856548)
 
 [node name="TrainerCard" type="PanelContainer" unique_id=253453222]
 size_flags_horizontal = 4

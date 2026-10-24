@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cxoi5bw1bgb6k" path="res://race/maps/map.gd" id="1_01fi0"]
 [ext_resource type="PackedScene" uid="uid://g3so8sq58stj" path="res://race/carrot.tscn" id="2_xbx23"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xbx23"]
-load_path = "res://.godot/imported/HrtMap1Outline1.png-ac590742871385d855aba46393f6fb1a.ctex"
+[ext_resource type="Texture2D" uid="uid://bataxnukcec8o" path="res://race/maps/HrtMap1_1.png" id="3_b3hgy"]
+[ext_resource type="Texture2D" uid="uid://cwlml7p1kbq0d" path="res://race/maps/HrtMap1_2.png" id="4_eba51"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_embgu"]
 size = Vector2(40, 100)
@@ -12,13 +11,9 @@ size = Vector2(40, 100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_embgu"]
 size = Vector2(40, 100)
 
-[node name="Map1" type="Node2D" unique_id=90955812 node_paths=PackedStringArray("map")]
+[node name="Map1" type="Node2D" unique_id=90955812]
 script = ExtResource("1_01fi0")
-map = NodePath("HrtMap1Outline1")
 metadata/_custom_type_script = "uid://cxoi5bw1bgb6k"
-
-[node name="HrtMap1Outline1" type="Sprite2D" parent="." unique_id=223729088]
-texture = SubResource("CompressedTexture2D_xbx23")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402442049]
 
@@ -36,3 +31,21 @@ shape = SubResource("RectangleShape2D_embgu")
 
 [node name="Carrot" parent="." unique_id=401655097 instance=ExtResource("2_xbx23")]
 position = Vector2(-40, 18)
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=485593316]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls" unique_id=1472962773]
+position = Vector2(-2, 3)
+polygon = PackedVector2Array(-320, 240, 260.59998, 240, 212, 115.399994, 212, 110.600006, 198, 107.600006, 194.79999, 105.5, 132.1, 147, 129.70001, 147, 121, 181.6, 121, 182.79999, 97, 206.79999, 63, 222, 45, 225.5, 45, 226.20001, 25.700012, 228, 19.5, 228, -16.799988, 222, -20.299988, 222, -52.299988, 206, -53.700012, 206, -77, 180.79999, -77, 177.79999, -141.1, 181, -154.1, 181, -181, 204.6, -204, 212.9, -220, 214.20001, -247.7, 209, -250, 209, -272.1, 194, -273.4, 194, -294.4, 163, -300, 137, -300, 132.20001, -295, 110.29999, -295, 106.70001, -286, 90.79999, -286, 89.399994, -255.8, 63, -251.8, 63, -257, 47.600006, -257, 45, -271.4, 39, -272.9, 39, -287.8, 25, -295.6, 1.800003, -295, -0.69999695, -295, -8.199997, -287, -22.199997, -287, -23.5, -265.2, -39.399994, -235.5, -44, -226.6, -44, -206.6, -36, -205.1, -36, -190.2, -22, -183, -6, -183, 11.199997, -191, 25.200012, -191, 26.5, -205.2, 39, -209.3, 39, -204, 53.399994, -204, 56.399994, -191, 59.299988, -191, 59.899994, -187.7, 61.5, -139, 25, -135.7, 25, -137, 11.699997, -137, 8.899994, -128, -4.100006, -92, -22.100006, -56, -28.5, -12.299988, -29, 23.700012, -21, 26.200012, -21, 57.200012, -3, 58.299988, -3, 65.79999, 10.100006, 65, 20.899994, 65, 22.899994, 57, 32.899994, 37, 45.299988, -15, 57.600006, -78.899994, 54, -80.8, 54, -143.8, 90, -149.3, 90, -143, 107.399994, -143, 110.5, -81, 121.5, -77.600006, 123.5, -52, 102.399994, -18, 87, 19.399994, 81, 25.899994, 81, 67.70001, 89, 69.600006, 89, 135.5, 59, 140.70001, 59, 145, 16.100006, 145, 11.699997, 73, -59.300003, 73, -62.600006, 36.5, -56, -63.700012, -56, -105.7, -101, -110.3, -101, -154.2, -56, -306, -56, -306, -223, -174.1, -223, -103, -163.7, -103, -161.9, -98.899994, -160.5, -54.799988, -218.1, -18, -219.1, -18, -224.2, -32.899994, -240, -320, -240)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Walls" unique_id=734670335]
+position = Vector2(-6, 3)
+polygon = PackedVector2Array(320, -240, -38, -240, -38, -237.9, -24, -221, -24, -218, 36.899994, -218, 69.70001, -211, 72.20001, -211, 100.100006, -193, 101.600006, -193, 116, -175, 116, -172, 168.5, -172, 180, -188, 180, -189.6, 196, -202.6, 219, -212, 234, -213.2, 260.7, -208, 263, -208, 280, -196, 281.59998, -196, 293.59998, -182, 304, -157, 304, -125.7, 293, -102.7, 293, -101.399994, 265, -78.399994, 234.5, -71.600006, 207.29999, -77, 205, -77, 179, -97, 167, -116.9, 167, -120, 125.20001, -120, 111, -92.7, 111, -88.600006, 184, -29.600006, 184, -26.199997, 211, -32.600006, 235.90002, -32, 241.29999, -32, 267.40002, -21, 268.7, -21, 291.8, 1, 302, 25, 303.2, 39, 302, 48.799988, 302, 54.299988, 291, 76.29999, 291, 77.70001, 270, 96.70001, 253, 105.100006, 205, 111.399994, 205, 115.600006, 253, 237.5, 253, 240, 320, 240)
+
+[node name="HrtMap11" type="Sprite2D" parent="Walls" unique_id=2100426334]
+position = Vector2(-2, 3)
+texture = ExtResource("3_b3hgy")
+
+[node name="HrtMap12" type="Sprite2D" parent="Walls" unique_id=2068340167]
+position = Vector2(-6, 3)
+texture = ExtResource("4_eba51")

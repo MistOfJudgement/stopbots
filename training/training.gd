@@ -21,12 +21,12 @@ func on_data_message(message: NetworkEvent) -> void:
 	
 	match payload["type"]:
 		"train_speed":
-			sender.player_stats.speed += 0.25
+			sender.player_stats.speed += 0.10
 			turn_counts[sender.connection_id] -= 1
 			send_training_output(sender)
 
 		"train_power":
-			sender.player_stats.power += 0.25
+			sender.player_stats.power += 0.10
 			turn_counts[sender.connection_id] -= 1
 			send_training_output(sender)
 	if completed_training():
