@@ -26,6 +26,8 @@ func _refresh_player_ui() -> void:
 
 
 func _on_button_pressed() -> void:
+	if GameState.active_players().is_empty():
+		return
 	WsMultiplayer.send_data({
 		"type": "start"
 	})

@@ -17,10 +17,13 @@ func _process(_delta: float) -> void:
 func on_data_message(event: NetworkEvent) -> void:
 	var log_label := Label.new()
 	log_label.text = str(event.payload)
+	log_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	%VBoxContainer.add_child(log_label)
 func on_system_message(type: String, data: Dictionary) -> void:
 	var log_label := Label.new()
 	log_label.text = str(type, " ", data)
+	log_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	
 	%VBoxContainer.add_child(log_label)
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:

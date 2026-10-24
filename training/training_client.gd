@@ -14,7 +14,7 @@ func _ready() -> void:
 		update_ui()
 func update_ui() -> void:
 	%SpeedBox/Label.text = "SPEED: {0}".format([GameState.current_player.player_stats.speed])
-	%PowerBox/Label.text = "SPEED: {0}".format([GameState.current_player.player_stats.power])
+	%PowerBox/Label.text = "POWER: {0}".format([GameState.current_player.player_stats.power])
 	%TurnCount.text = "You have {0} turns remaining".format([turns_remaining])
 	if turns_remaining == 0:
 		%TrainingActions.visible = false

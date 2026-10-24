@@ -11,7 +11,7 @@ func set_horse(horse: HorseStats) -> void:
 func _ready() -> void:
 	randomize_angle()
 func randomize_angle() -> void:
-	velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * stats.speed * 100 
+	velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * stats.speed * 80
 	
 func _physics_process(delta: float) -> void:
 		#get_colliding_bodies()[0].get_angle_to(position)
@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 		i += 1
 	#if i == 30: return
 	var collision := move_and_collide(velocity * delta * straightaway_boost)
-	#straightaway_boost += 0.1
+	straightaway_boost += 0.1 * (stats.power - 0.9)
 	if collision:
 		straightaway_boost = 1.0
 		velocity = velocity.bounce(collision.get_normal())
