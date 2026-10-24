@@ -36,7 +36,3 @@ func on_system_message(type: String, data: Dictionary) -> void:
 			push_error("Auth/Server error: " + data.get("message", "/error"))
 		_:
 			print("System event [%s]: " % type, data)
-
-# 3. Ignored here because we are on the join screen, but ready for later scenes
-func on_data_message(event: NetworkEvent) -> void:
-	pass

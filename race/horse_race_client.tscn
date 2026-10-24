@@ -53,3 +53,4 @@ metadata/_custom_type_script = "uid://cprl44vrh34xn"
 
 [connection signal="pressed" from="HBoxContainer/incr" to="." method="_on_incr_pressed"]
 [connection signal="pressed" from="HBoxContainer/dec" to="." method="_on_dec_pressed"]
+[connection signal="on_horse_button_pressed" from="HorseButtonContainer" to="." method="_on_horse_button_container_on_horse_button_pressed"]

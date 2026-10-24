@@ -1,8 +1,10 @@
 class_name BetTracker
 extends PanelContainer
 
-
-func set_horse(horse: HorseData) -> void:
+var horse_index: int
+func set_horse(horse_i: int) -> void:
+	horse_index = horse_i
+	var horse := HorseDb.lookup(horse_index)
 	%TextureRect.texture.atlas = horse.sprite_sheet
 	%Name.text = horse.short_name
 	

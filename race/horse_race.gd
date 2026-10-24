@@ -15,12 +15,13 @@ var bets: Dictionary[String, HorseBet] = {}
 func _ready() -> void:
 	if not GameState.is_authority:
 		printerr("how did we get here")
-	for i in range(len(HorseDb.MainDb.horses)):
-		var tmp := HorseStats.new(i)
+	add_child(WebsocketConnector.new())
+	for p in GameState.active_players():
+		var tmp := HorseStats.new(p.horse_info)
 		map.spawn_horses(tmp)
 		var bet_temp: BetTracker = bet_template.instantiate()
 		bet_temp.set_bet(0)
-		bet_temp.set_horse(HorseDb.lookup(i))
+		bet_temp.set_horse(p.horse_info)
 		betting_container.add_child(bet_temp)
 
 	for i: GameState.PlayerInfo in GameState.players.values():
@@ -32,7 +33,7 @@ func _ready() -> void:
 			})
 	WsMultiplayer.send_data({
 		"type": "announce_racers",
-		"timeout": Time.get_unix_time_from_system() + 10,
+		"timeout": Time.get_unix_time_from_system() + $StartTimer.wait_time,
 		"players": GameState.active_players().map(
 			func(e: GameState.PlayerInfo) -> Dictionary: return {
 				"player_id": e.connection_id,
@@ -43,7 +44,13 @@ func _ready() -> void:
 func _on_start_timer_timeout() -> void:
 	#remove starting gate
 	map.open_gate()
-	pass
+	for spec: String in bets.keys():
+		var bet := bets[spec]
+		GameState.players[spec].player_stats.money -= bet.amt
+		WsMultiplayer.send_data_to(spec, {
+			"type": "update_money",
+			"amt": GameState.players[spec].player_stats.money
+		})
 
 
 func _on_end_race_button_pressed() -> void:
@@ -75,29 +82,38 @@ func place_bet(player: String, horse_i: int, amount: int) -> void:
 	update_bets_ui()
 
 func update_bets_ui() -> void:
-	var horse_bet_nodes: Array[BetTracker] = betting_container.get_children().filter(func(n: Node): return n is BetTracker)
-	var group_bets: Array[int] = []
-	group_bets.resize(horse_bet_nodes.size())
+	var horse_bet_nodes: Array[BetTracker] = []
+	horse_bet_nodes.assign(betting_container.get_children().filter(func(n: Node) -> bool: return n is BetTracker))
+	var group_bets: Dictionary[int, int] = {}
 	
 	for bet: HorseBet in bets.values():
+		if bet.horse_i not in group_bets:
+			group_bets[bet.horse_i] = 0
 		group_bets[bet.horse_i] += bet.amt
-	
-	for i in range(len(horse_bet_nodes)):
-		horse_bet_nodes[i].set_bet(group_bets[i])
+	for bet_node in (horse_bet_nodes):
+		bet_node.set_bet(group_bets[bet_node.horse_index])
 func sum(a: int, c: int) -> int: return a + c
 func payout(winner: int) -> void:
 	var pot: int = 0
-	var winners: Array[String] = []
-	for p in bets.keys():
-		pot += bets[p].amt
-		if bets[p].horse_i == winner:
-			winners.append(p)
+	var winning_pool: int = 0
+
+	for p: String in bets.keys():
+		var bet: HorseBet = bets[p]
+		pot += bet.amt
+		if bet.horse_i == winner:
+			winning_pool += bet.amt
+
+	if winning_pool == 0:
+		#idk we can keep this for now. no refunds
+		return
 		
-	for s in winners:
-		var i: GameState.PlayerInfo = GameState.players[s]
-		@warning_ignore("integer_division")
-		i.player_stats.money += pot / len(winners)
-		WsMultiplayer.send_data_to(i.connection_id, {
-			"type": "update_money",
-			"amt": i.player_stats.money
-		})
+	for p: String in bets.keys():
+		var bet: HorseBet = bets[p]
+		if bet.horse_i == winner:
+			var payout_amount: int = int((float(bet.amt) / float(winning_pool)) * float(pot))
+			var i: GameState.PlayerInfo = GameState.players[p]
+			i.player_stats.money += payout_amount
+			WsMultiplayer.send_data_to(i.connection_id, {
+				"type": "update_money",
+				"amt": i.player_stats.money
+			})
