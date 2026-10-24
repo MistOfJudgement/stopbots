@@ -23,7 +23,7 @@ var current_game_state: GameStateType = GameStateType.None
 var room: String = ""
 var password: String = ""
 var is_authority: bool = true
-
+var wins_to_win: int = 3
 var current_player: PlayerInfo = PlayerInfo.new()
 # --- PLAYER MANAGEMENT ---
 class PlayerInfo:
@@ -95,18 +95,19 @@ var SCENE_PATHS: Dictionary[GameStateType, ScopedScene] = {
 		false: "res://win/win_screen.tscn"
 	})
 }
-
+func request_transition(target: GameStateType) -> void:
+	if is_authority:
+		WsMultiplayer.send_data({
+			"type": "change_state",
+			"target_state": target
+		})
 func transition_to_state(target_state: GameStateType, notify_network: bool = true) -> void:
 	if current_game_state == target_state:
 		return
 
-
 	current_game_state = target_state
-	if notify_network and is_authority:
-		WsMultiplayer.send_data({
-			"type": "change_state",
-			"target_state": target_state
-		})
+	if notify_network:
+		request_transition(target_state)
 	if players.size() > 0:
 		await player_game_states_synced
 	if SCENE_PATHS.has(target_state):

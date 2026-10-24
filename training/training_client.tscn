@@ -67,6 +67,7 @@ layout_mode = 2
 text = "TRAIN"
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=219774817]
+visible = false
 layout_mode = 2
 text = "DONE"
 

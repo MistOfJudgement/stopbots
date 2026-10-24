@@ -33,6 +33,7 @@ grow_vertical = 0
 text = "End Race Early"
 
 [node name="WinRaceButton" type="Button" parent="CanvasLayer" unique_id=889182769]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0

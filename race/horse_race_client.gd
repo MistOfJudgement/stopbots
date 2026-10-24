@@ -11,6 +11,7 @@ func _ready() -> void:
 		info_text.text = "Cheer on your horse"
 		%HBoxContainer.visible = false
 		%HorseButtonContainer.visible = false
+		$Money.visible = false
 		
 		
 func load_racer(players: Array) -> void:

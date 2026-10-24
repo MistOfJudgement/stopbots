@@ -17,16 +17,19 @@ script = ExtResource("1_j7ak5")
 
 [node name="Label" type="Label" parent="." unique_id=1681874336]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Choose who to bet on."
 label_settings = SubResource("LabelSettings_embgu")
 
 [node name="Money" type="Label" parent="." unique_id=1942960672]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "You have {} to gamble with"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1338459111]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="incr" type="Button" parent="HBoxContainer" unique_id=582047243]
 layout_mode = 2

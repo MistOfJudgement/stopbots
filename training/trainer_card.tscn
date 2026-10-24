@@ -38,12 +38,19 @@ text = "Jovial Merryment"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Speed: 10
-Power: 10"
+text = "Speed: 10"
 
 [node name="Power" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2140468548]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "POWER"
+
+[node name="Wins" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=538341877]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Wins:"
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=657309196]
 unique_name_in_owner = true

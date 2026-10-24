@@ -20,7 +20,7 @@ func _ready() -> void:
 		printerr("how did we get here")
 	add_child(WebsocketConnector.new())
 	for p in GameState.active_players():
-		var tmp := HorseStats.new(p.horse_info)
+		var tmp := HorseStats.from_player(p)
 		map.spawn_horses(tmp)
 		var bet_temp: BetTracker = bet_template.instantiate()
 		bet_temp.set_bet(0)
@@ -57,6 +57,9 @@ func _on_start_timer_timeout() -> void:
 
 
 func _on_end_race_button_pressed() -> void:
+	if race_done: return
+	payout(-1)
+	race_done = true
 	GameState.goto_train()
 
 
@@ -70,10 +73,19 @@ func _input(event: InputEvent) -> void:
 func _on_map_1_on_win(horse_i: int) -> void:
 	if race_done: return # idempotency
 	race_done = true
-	win_label.text = "{0} wins!".format([HorseDb.lookup(horse_i).full_name])
 	payout(horse_i)
+	var player: GameState.PlayerInfo
+	for p in GameState.active_players():
+		if p.horse_info == horse_i:
+			p.player_stats.wins += 1
+			player = p
+	win_label.text = "{0} wins!\n{1} has {2} wins!!".format([HorseDb.lookup(horse_i).full_name,player.name, player.player_stats.wins])
+			
 	await get_tree().create_timer(5).timeout
-	GameState.goto_train()
+	if player.player_stats.wins >= 3:
+		GameState.goto_win()
+	else:
+		GameState.goto_train()
 
 func on_data_message(event: NetworkEvent) -> void:
 	var payload: Dictionary = event.payload
@@ -112,8 +124,8 @@ func payout(winner: int) -> void:
 			winning_pool += bet.amt
 
 	if winning_pool == 0:
-		#idk we can keep this for now. no refunds
-		return
+		winning_pool = pot #refund
+		winner = -1 #no winner for spectators
 		
 	for p: String in bets.keys():
 		var bet: HorseBet = bets[p]

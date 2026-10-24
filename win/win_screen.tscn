@@ -1,17 +1,16 @@
 [gd_scene format=3 uid="uid://cyvts24p1w1wf"]
 
 [ext_resource type="Script" uid="uid://cek4ew2gw2tao" path="res://win/win_screen.gd" id="1_djgnq"]
+[ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="2_aeob4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djgnq"]
+atlas = ExtResource("2_aeob4")
+region = Rect2(0, 0, 29, 27.5)
 
 [node name="WinScreen" type="VBoxContainer" unique_id=1707903768]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -376.5
-offset_top = -31.0
-offset_right = 376.5
-offset_bottom = 31.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -20,7 +19,17 @@ script = ExtResource("1_djgnq")
 
 [node name="Label" type="Label" parent="." unique_id=1477321145]
 layout_mode = 2
-text = "CONGRATULATIONS to JOVIAL MERRYMENT"
+text = "Congrats to asdlkfjasdflkjasdflkj!
+Trainer of Comely Material Morning"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=478026412]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_djgnq")
+expand_mode = 3
+stretch_mode = 4
 
 [node name="Button" type="Button" parent="." unique_id=2093550424]
 layout_mode = 2
