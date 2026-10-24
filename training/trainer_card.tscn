@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://blk7w4r15veag"]
+
+[ext_resource type="Texture2D" uid="uid://ccjly6l7c0vvh" path="res://horse/assets/MRY_2_Eyes.png" id="1_d3stc"]
+[ext_resource type="Script" uid="uid://bq6y4jspxmm7i" path="res://training/trainer_card.gd" id="1_ebklw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_embgu"]
+resource_local_to_scene = true
+atlas = ExtResource("1_d3stc")
+region = Rect2(0, 0, 24.770676, 29.349485)
+
+[node name="TrainerCard" type="PanelContainer" unique_id=253453222]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_ebklw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1110361115]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1966478517]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TrainerLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1992498506]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Trainer's horse"
+
+[node name="Horse" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=874991952]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Jovial Merryment"
+
+[node name="Speed" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=767516984]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Speed: 10
+Power: 10"
+
+[node name="Power" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=2140468548]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=657309196]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_embgu")
+expand_mode = 2
+stretch_mode = 5

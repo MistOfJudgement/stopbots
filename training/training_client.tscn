@@ -19,50 +19,50 @@ script = ExtResource("1_87uvy")
 layout_mode = 2
 
 [node name="Title" type="Label" parent="VBoxContainer" unique_id=721272590]
+unique_name_in_owner = true
 layout_mode = 2
 text = "TRAIN YOUR HORSE!"
 
 [node name="TurnCount" type="Label" parent="VBoxContainer" unique_id=636195279]
+unique_name_in_owner = true
 layout_mode = 2
 text = "You have 5 turns"
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=818958219]
-layout_mode = 2
-text = "You have 100 energy"
-
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=936562224]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = SubResource("AtlasTexture_mhk3b")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=654099977]
+[node name="TrainingActions" type="HBoxContainer" parent="VBoxContainer" unique_id=654099977]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
-[node name="SpeedBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1675580012]
+[node name="SpeedBox" type="VBoxContainer" parent="VBoxContainer/TrainingActions" unique_id=1675580012]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/SpeedBox" unique_id=1689614935]
+[node name="Label" type="Label" parent="VBoxContainer/TrainingActions/SpeedBox" unique_id=1689614935]
 layout_mode = 2
 text = "SPEED: 10"
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/SpeedBox" unique_id=1920710321]
+[node name="Button" type="Button" parent="VBoxContainer/TrainingActions/SpeedBox" unique_id=1920710321]
 layout_mode = 2
 text = "TRAIN"
 
-[node name="PowerBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=57482148]
+[node name="PowerBox" type="VBoxContainer" parent="VBoxContainer/TrainingActions" unique_id=57482148]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PowerBox" unique_id=800574077]
+[node name="Label" type="Label" parent="VBoxContainer/TrainingActions/PowerBox" unique_id=800574077]
 layout_mode = 2
 text = "POWER: 10"
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/PowerBox" unique_id=1295180357]
+[node name="Button" type="Button" parent="VBoxContainer/TrainingActions/PowerBox" unique_id=1295180357]
 layout_mode = 2
 text = "TRAIN"
 
@@ -70,4 +70,5 @@ text = "TRAIN"
 layout_mode = 2
 text = "DONE"
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/SpeedBox/Button" to="." method="_on_speed_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/TrainingActions/SpeedBox/Button" to="." method="_on_speed_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/TrainingActions/PowerBox/Button" to="." method="_on_power_button_pressed"]
