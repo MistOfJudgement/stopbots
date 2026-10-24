@@ -31,6 +31,11 @@ texture = SubResource("AtlasTexture_djgnq")
 expand_mode = 3
 stretch_mode = 4
 
+[node name="Label2" type="Label" parent="." unique_id=1489504860]
+layout_mode = 2
+text = "{0} is the best gambler with {1} money!"
+horizontal_alignment = 1
+
 [node name="Button" type="Button" parent="." unique_id=2093550424]
 layout_mode = 2
 text = "Back to Lobby"
