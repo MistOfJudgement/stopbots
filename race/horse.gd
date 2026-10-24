@@ -19,6 +19,7 @@ func _physics_process(delta: float) -> void:
 		straightaway_boost = 1.0
 		velocity = velocity.bounce(collision.get_normal())
 		return
+		$AudioStreamPlayer2D.play()
 
 func _on_body_entered(_body: Node) -> void:
 	randomize_angle()

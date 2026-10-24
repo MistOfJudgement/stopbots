@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c21gvli33nh6p" path="res://race/horse.gd" id="1_o1ycu"]
 [ext_resource type="Texture2D" uid="uid://bvjrrlnroc3bt" path="res://horse/assets/00B_2_Eyes.png" id="2_v1j2i"]
+[ext_resource type="AudioStream" uid="uid://dr40es38dka80" path="res://freesound_community-bonk-sound-effect-36055.mp3" id="3_5pjkx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v1j2i"]
 resource_local_to_scene = true
@@ -21,3 +22,6 @@ texture = SubResource("AtlasTexture_v1j2i")
 position = Vector2(-0.9999999, 0)
 scale = Vector2(1.0000004, 1)
 shape = SubResource("RectangleShape2D_embgu")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2008373555]
+stream = ExtResource("3_5pjkx")
