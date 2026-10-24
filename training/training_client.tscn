@@ -43,6 +43,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 
 [node name="SpeedBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1675580012]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/SpeedBox" unique_id=1689614935]
@@ -54,6 +55,7 @@ layout_mode = 2
 text = "TRAIN"
 
 [node name="PowerBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=57482148]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PowerBox" unique_id=800574077]

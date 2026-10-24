@@ -4,6 +4,7 @@ extends Node2D
 @onready var map: HrtMap = $Map1
 @onready var betting_container: Container = $CanvasLayer/MarginContainer/BettingContainer
 @onready var win_label: Label = $CanvasLayer/WinMessage
+
 class HorseBet:
 	var horse_i: int
 	var amt: int
@@ -11,6 +12,8 @@ class HorseBet:
 		horse_i = i
 		amt = a
 var bets: Dictionary[String, HorseBet] = {}
+var race_done:bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not GameState.is_authority:
@@ -60,9 +63,14 @@ func _on_end_race_button_pressed() -> void:
 func _on_win_race_button_pressed() -> void:
 	GameState.goto_win()
 
-
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.keycode == KEY_1:
+			_on_map_1_on_win(GameState.active_players()[0].horse_info)
 func _on_map_1_on_win(horse_i: int) -> void:
-	win_label.text = "{0} wins!".format(HorseDb.lookup(horse_i).full_name)
+	if race_done: return # idempotency
+	race_done = true
+	win_label.text = "{0} wins!".format([HorseDb.lookup(horse_i).full_name])
 	payout(horse_i)
 	await get_tree().create_timer(5).timeout
 	GameState.goto_train()
@@ -91,7 +99,7 @@ func update_bets_ui() -> void:
 			group_bets[bet.horse_i] = 0
 		group_bets[bet.horse_i] += bet.amt
 	for bet_node in (horse_bet_nodes):
-		bet_node.set_bet(group_bets[bet_node.horse_index])
+		bet_node.set_bet(group_bets.get(bet_node.horse_index, 0))
 func sum(a: int, c: int) -> int: return a + c
 func payout(winner: int) -> void:
 	var pot: int = 0

@@ -11,7 +11,7 @@ func set_horse(horse: HorseStats) -> void:
 func _ready() -> void:
 	randomize_angle()
 func randomize_angle() -> void:
-	velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * stats.speed * 100
+	velocity = Vector2(randf_range(-100, 100), randf_range(-100, 100)).normalized() * stats.speed * 100 
 	
 func _physics_process(delta: float) -> void:
 		#get_colliding_bodies()[0].get_angle_to(position)
@@ -53,5 +53,5 @@ func is_touching_wall(pos: Vector2) -> bool:
 	return [pixel_color0, pixel_color1, pixel_color2, pixel_color3].any(func(x: Color) -> bool: return x.a > 0.5)
 
 
-func _on_body_entered(body: Node) -> void:
+func _on_body_entered(_body: Node) -> void:
 	randomize_angle()

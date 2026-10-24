@@ -11,7 +11,8 @@ script = ExtResource("1_84n4f")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=394593413]
 
 [node name="StartTimer" type="Timer" parent="." unique_id=1516668933]
-wait_time = 4.0
+wait_time = 6.0
+one_shot = true
 autostart = true
 
 [node name="Spawn" type="Marker2D" parent="." unique_id=430846175]
